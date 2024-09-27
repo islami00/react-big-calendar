@@ -3,6 +3,7 @@ const getKey = ({ min, max, step, slots, localizer }) =>
   `${+localizer.startOf(max, 'minutes')}` +
   `${step}-${slots}`
 
+/** @type {import("./TimeSlots.types").TimeSlotsGetSlotMetricsFn} */
 export function getSlotMetrics({
   min: start,
   max: end,

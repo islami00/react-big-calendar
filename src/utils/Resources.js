@@ -1,14 +1,21 @@
 export const NONE = {}
 
+/**
+ *
+ * @param {object[]} resources
+ * @param {object} accessors
+ * @returns
+ */
 export default function Resources(resources, accessors) {
   return {
     map(fn) {
-      if (!resources) return [fn([NONE, null], 0)]
-      return resources.map((resource, idx) =>
-        fn([accessors.resourceId(resource), resource], idx)
+      if (!resources) return [fn([NONE, null], 0, [])]
+      return resources.map((resource, idx, array) =>
+        fn([accessors.resourceId(resource), resource], idx, array)
       )
     },
 
+    /** @returns {Map<any,import('react-big-calendar').Event[]>} */
     groupEvents(events) {
       const eventsByResource = new Map()
 

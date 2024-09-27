@@ -9,6 +9,7 @@ export function endOfRange({ dateRange, unit = 'day', localizer }) {
 
 // properly calculating segments requires working with dates in
 // the timezone we're working with, so we use the localizer
+/** @type {import("./eventLevels.types").EventSegmentsFn} */
 export function eventSegments(event, range, accessors, localizer) {
   let { first, last } = endOfRange({ dateRange: range, localizer })
 
@@ -35,6 +36,7 @@ export function eventSegments(event, range, accessors, localizer) {
   }
 }
 
+/** @type {import("./eventLevels.types").EventLevelsFn} */
 export function eventLevels(rowSegments, limit = Infinity) {
   let i,
     j,
@@ -60,7 +62,15 @@ export function eventLevels(rowSegments, limit = Infinity) {
 
   return { levels, extra }
 }
-
+/**
+ *
+ * @param {import('react-big-calendar').Event} e
+ * @param {import('react-big-calendar').Event} start
+ * @param {import('react-big-calendar').Event} end
+ * @param {object} accessors
+ * @param {import("../localizer").DateLocalizer} localizer
+ * @returns
+ */
 export function inRange(e, start, end, accessors, localizer) {
   const event = {
     start: accessors.start(e),

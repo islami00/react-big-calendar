@@ -5,16 +5,23 @@ import EventRowMixin from './EventRowMixin'
 import { eventLevels } from './utils/eventLevels'
 import range from 'lodash/range'
 
+/**
+ *
+ * @param {import("./utils/common").RowSegment<import("react-big-calendar").Event>} seg
+ * @param {number} slot
+ */
 let isSegmentInSlot = (seg, slot) => seg.left <= slot && seg.right >= slot
 let eventsInSlot = (segments, slot) =>
   segments.filter((seg) => isSegmentInSlot(seg, slot)).map((seg) => seg.event)
 
+/** @extends  {React.Component<import("./EventEndingRow.types").EventEndingRowProps>}*/
 class EventEndingRow extends React.Component {
   render() {
     let {
       segments,
       slotMetrics: { slots },
     } = this.props
+
     let rowSegments = eventLevels(segments).levels[0]
 
     let current = 1,
@@ -23,10 +30,9 @@ class EventEndingRow extends React.Component {
 
     while (current <= slots) {
       let key = '_lvl_' + current
-
+      // Get the first event that fits into this slot
       let { event, left, right, span } =
         rowSegments.filter((seg) => isSegmentInSlot(seg, current))[0] || {} //eslint-disable-line
-
       if (!event) {
         current++
         continue

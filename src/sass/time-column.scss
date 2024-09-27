@@ -133,3 +133,10 @@
 .rbc-day-header {
   text-align: center;
 }
+
+.brbc-time-slot {
+  min-height: 40px;
+}
+.brbc-time-header-gutter {
+  border-bottom: 1px solid $calendar-border;
+}

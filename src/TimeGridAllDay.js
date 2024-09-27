@@ -4,9 +4,8 @@ import clsx from 'clsx'
 import * as animationFrame from 'dom-helpers/animationFrame'
 import memoize from 'memoize-one'
 
-import DayColumn from './DayColumn'
-import TimeGutter from './TimeGutter'
-import TimeGridHeader from './TimeGridHeader'
+// import TimeGutter from './TimeGutter'
+import TimeGridHeader from './TimeGridHeaderAllDay'
 import PopOverlay from './PopOverlay'
 
 import getWidth from 'dom-helpers/width'
@@ -16,9 +15,11 @@ import { inRange, sortEvents } from './utils/eventLevels'
 import { notify } from './utils/helpers'
 import Resources from './utils/Resources'
 import { DayLayoutAlgorithmPropType } from './utils/propTypes'
+import DateContentRow from './DateContentRow'
+import TimeGutterAllDay from './TimeGutterAllDay'
 
-/** @extends {React.Component<import("react-big-calendar").TimeGridProps>} */
-export default class TimeGrid extends Component {
+/** @extends {React.Component<import("./TimeGridAllDay.types").TimeGridProps>} */
+export default class TimeGridAllDay extends Component {
   constructor(props) {
     super(props)
 
@@ -131,54 +132,55 @@ export default class TimeGrid extends Component {
       resourceId: slotInfo.resourceId,
     })
   }
+  /**
+   *
+   * @param {Date[]} range
+   * @param {import('react-big-calendar').Event[]} events
+   * @param {object} resource
+   * @param {boolean} isLast
+   */
+  renderEvents(range, events, resource, isLast) {
+    let {
+      //
+      rtl,
+      resizable,
+      selectable,
+      getters,
+      getNow,
+      localizer,
+      accessors,
+      components,
+      //
+    } = this.props
 
-  renderEvents(range, events, backgroundEvents, now) {
-    let { min, max, components, accessors, localizer, dayLayoutAlgorithm } =
-      this.props
+    const resourceId = accessors.resourceId(resource)
 
-    const resources = this.memoizedResources(this.props.resources, accessors)
-    const groupedEvents = resources.groupEvents(events)
-    const groupedBackgroundEvents = resources.groupEvents(backgroundEvents)
-
-    return resources.map(([id, resource], i) =>
-      range.map((date, jj) => {
-        let daysEvents = (groupedEvents.get(id) || []).filter((event) =>
-          localizer.inRange(
-            date,
-            accessors.start(event),
-            accessors.end(event),
-            'day'
-          )
-        )
-
-        let daysBackgroundEvents = (
-          groupedBackgroundEvents.get(id) || []
-        ).filter((event) =>
-          localizer.inRange(
-            date,
-            accessors.start(event),
-            accessors.end(event),
-            'day'
-          )
-        )
-
-        return (
-          <DayColumn
-            {...this.props}
-            localizer={localizer}
-            min={localizer.merge(date, min)}
-            max={localizer.merge(date, max)}
-            resource={resource && id}
-            components={components}
-            isNow={localizer.isSameDate(date, now)}
-            key={i + '-' + jj}
-            date={date}
-            events={daysEvents}
-            backgroundEvents={daysBackgroundEvents}
-            dayLayoutAlgorithm={dayLayoutAlgorithm}
-          />
-        )
-      })
+    return (
+      <DateContentRow
+        getNow={getNow}
+        rtl={rtl}
+        minRows={1}
+        // Add +1 to include showMore button row in the row limit
+        maxRows={2}
+        range={range}
+        events={events}
+        resourceId={resourceId}
+        data-last
+        className={clsx('rbc-time-content-row', isLast && 'last')}
+        selectable={selectable}
+        selected={this.props.selected}
+        components={components}
+        accessors={accessors}
+        getters={getters}
+        localizer={localizer}
+        onSelect={this.props.onSelectEvent}
+        onShowMore={this.props.onShowMore}
+        onDoubleClick={this.props.onDoubleClickEvent}
+        onKeyPress={this.props.onKeyPressEvent}
+        onSelectSlot={this.props.onSelectSlot}
+        longPressThreshold={this.props.longPressThreshold}
+        resizable={resizable}
+      />
     )
   }
 
@@ -188,8 +190,8 @@ export default class TimeGrid extends Component {
       backgroundEvents,
       range,
       width,
-      rtl,
       selected,
+      rtl,
       getNow,
       resources,
       components,
@@ -239,12 +241,12 @@ export default class TimeGrid extends Component {
 
     allDayEvents.sort((a, b) => sortEvents(a, b, accessors, localizer))
 
+    const memoizedResourcesResult = this.memoizedResources(resources, accessors)
+    const groupedEvents = memoizedResourcesResult.groupEvents(allDayEvents)
+
     return (
       <div
-        className={clsx(
-          'rbc-time-view',
-          resources && 'rbc-time-view-resources'
-        )}
+        className={clsx('brbc-time-view-all-day-inline')}
         ref={this.containerRef}
       >
         <TimeGridHeader
@@ -260,7 +262,7 @@ export default class TimeGrid extends Component {
               ? Infinity
               : this.props.allDayMaxRows ?? Infinity
           }
-          resources={this.memoizedResources(resources, accessors)}
+          resources={memoizedResourcesResult}
           selectable={this.props.selectable}
           accessors={accessors}
           getters={getters}
@@ -280,10 +282,10 @@ export default class TimeGrid extends Component {
         {this.props.popup && this.renderOverlay()}
         <div
           ref={this.contentRef}
-          className="rbc-time-content"
+          className="brbc-time-content"
           onScroll={this.handleScroll}
         >
-          <TimeGutter
+          <TimeGutterAllDay
             date={start}
             ref={this.gutterRef}
             localizer={localizer}
@@ -295,13 +297,17 @@ export default class TimeGrid extends Component {
             components={components}
             className="rbc-time-gutter"
             getters={getters}
+            resources={memoizedResourcesResult}
+            accessors={this.props.accessors}
           />
-          {this.renderEvents(
-            range,
-            rangeEvents,
-            rangeBackgroundEvents,
-            getNow()
-          )}
+          <div className="rbc-time-content-event-list">
+            {memoizedResourcesResult.map(([id, resource], idx, array) => {
+              const eventsToDisplay = groupedEvents.get(id) || []
+
+              const isLast = array.length ? idx === array.length - 1 : true
+              return this.renderEvents(range, eventsToDisplay, resource, isLast)
+            })}
+          </div>
         </div>
       </div>
     )
@@ -414,7 +420,7 @@ export default class TimeGrid extends Component {
   )
 }
 
-TimeGrid.propTypes = {
+TimeGridAllDay.propTypes = {
   events: PropTypes.array.isRequired,
   backgroundEvents: PropTypes.array.isRequired,
   resources: PropTypes.array,
@@ -473,7 +479,7 @@ TimeGrid.propTypes = {
   ]),
 }
 
-TimeGrid.defaultProps = {
+TimeGridAllDay.defaultProps = {
   step: 30,
   timeslots: 2,
 }
