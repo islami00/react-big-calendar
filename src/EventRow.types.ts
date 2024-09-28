@@ -1,4 +1,4 @@
-import * as React from 'react'
+import type * as React from 'react'
 
 import type { RowSegment } from './utils/eventLevels.types'
 import type { RBCEvent } from './misc.types'
@@ -9,6 +9,6 @@ export interface EventRowProps<TEvent extends object = RBCEvent> {
   className?: string
 }
 
-export class EventRow<TEvent extends object = RBCEvent> extends React.Component<
-  EventRowProps<TEvent>
-> {}
+export declare class EventRow<
+  TEvent extends object = RBCEvent
+> extends React.Component<EventRowProps<TEvent>> {}

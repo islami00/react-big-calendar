@@ -1,6 +1,6 @@
-import type { GetSlotMetricsArgsAccessors } from './utils'
 import type { RBCEvent } from '../misc.types'
 import type { DateLocalizer } from '../localizer.types'
+import type { GetSlotMetricsArgsAccessors } from './DateSlotMetrics.types'
 export interface EventLevelsReturns<TEvent extends object = RBCEvent> {
   levels: EventLevelsList<TEvent>
   extra: RowSegment<TEvent>[]
