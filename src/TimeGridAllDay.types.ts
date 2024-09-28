@@ -1,22 +1,27 @@
-import type { TimeGridProps as TypesTimeGridProps } from 'react-big-calendar'
-import type {
-  ResourcesFnGroupedEvents,
-  ResourcesFnTuple,
-} from './utils/Resources.types'
+import type * as React from 'react'
+import type { TimeGridProps } from 'react-big-calendar'
+import type { RBCEvent, RBCResource } from './misc.types'
 
-// Based on react-big-calendar @types
-// Added props I need
-
-export type TimeGridProps<
-  TEvent extends object = Event,
-  TResource extends object = object
-> = TypesTimeGridProps<TEvent, TResource>
-
-export interface TimeGridAllDayClass {
-  renderEvents(
-    groupedEvents: ResourcesFnGroupedEvents,
-    resourceTuple: ResourcesFnTuple,
-    idx: number,
-    arrayLen: number
-  ): React.JSX.Element
+export interface TimeGridAllDayState {
+  gutterWidth: number | undefined
+  overlay: {
+    date: Date
+    events: RBCEvent[]
+    position: {
+      top: number
+      left: number
+      height: number
+      width: string
+    }
+    target: HTMLElement
+  } | null
+  isOverflowing: boolean | null
 }
+
+export declare class TimeGridAllDay<
+  TEvent extends object = RBCEvent,
+  TResource extends object = RBCResource
+> extends React.Component<
+  TimeGridProps<TEvent, TResource>,
+  TimeGridAllDayState
+> {}

@@ -1,3 +1,6 @@
+/** @import * as types from './TimeGridAllDay.types*/
+/** @import {OnSelectSlotArgs} from './BackgroundCells.types*/
+/** @import {ResourcesFnGroupedEvents, ResourcesFnTuple} from './utils/Resources.types*/
 import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
@@ -18,11 +21,14 @@ import { DayLayoutAlgorithmPropType } from './utils/propTypes'
 import DateContentRow from './DateContentRow'
 import TimeGutterAllDay from './TimeGutterAllDay'
 
-/** @extends {React.Component<import("./TimeGridAllDay.types").TimeGridProps>} */
+/**
+ * @extends {types.TimeGridAllDay}
+ * */
 export default class TimeGridAllDay extends Component {
   constructor(props) {
     super(props)
 
+    /** @type {types.TimeGridAllDayState} */
     this.state = {
       gutterWidth: undefined,
       isOverflowing: null,
@@ -120,7 +126,11 @@ export default class TimeGridAllDay extends Component {
     notify(onShowMore, [events, date, slot])
   }
 
-  handleSelectAllDaySlot = (slots, slotInfo) => {
+  /**
+   * @param {Date[]} slots
+   * @param {OnSelectSlotArgs} slotInfo
+   */
+  handleSelectSlot = (slots, slotInfo) => {
     const { onSelectSlot } = this.props
 
     const start = new Date(slots[0])
@@ -136,7 +146,10 @@ export default class TimeGridAllDay extends Component {
     })
   }
   /**
-   * @type {import("./TimeGridAllDay.types").TimeGridAllDayClass['renderEvents']}
+   * @param {ResourcesFnGroupedEvents} groupedEvents
+   * @param {ResourcesFnTuple} resourceTuple
+   * @param {number} idx
+   * @param {number} arrayLen
    */
   renderEvents(groupedEvents, resourceTuple, idx, arrayLen) {
     let {
@@ -179,11 +192,11 @@ export default class TimeGridAllDay extends Component {
         accessors={accessors}
         getters={getters}
         localizer={localizer}
-        onSelect={this.props.onSelectEvent}
-        onShowMore={this.props.onShowMore}
-        onDoubleClick={this.props.onDoubleClickEvent}
-        onKeyPress={this.props.onKeyPressEvent}
-        onSelectSlot={this.props.onSelectSlot}
+        onSelect={this.handleSelectEvent}
+        onShowMore={this.handleShowMore}
+        onDoubleClick={this.handleDoubleClickEvent}
+        onKeyPress={this.handleKeyPressEvent}
+        onSelectSlot={this.handleSelectSlot}
         longPressThreshold={this.props.longPressThreshold}
         resizable={resizable}
       />

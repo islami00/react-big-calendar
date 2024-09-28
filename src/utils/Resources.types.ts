@@ -1,4 +1,4 @@
-import type { RBCEvent, RBCResource } from './common'
+import type { RBCResource, RBCEvent } from '../misc.types'
 
 export type ResourcesFnNoneObject = {}
 

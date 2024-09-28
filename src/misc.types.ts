@@ -1,0 +1,38 @@
+import type { NavigateAction } from 'react-big-calendar'
+import type { DateLocalizer } from './localizer.types'
+
+export type PropTypeFunc = (...args: any[]) => void
+
+export type DateRangeList = [Date, ...Date[]]
+
+/** Alternatively, resourceIdAccessor and resourceTitleAccessor can be used instead */
+export interface RBCResource {
+  id: string | number // must be unique
+  title: string
+}
+
+export interface RBCEvent {
+  allDay?: boolean | undefined
+  title?: React.ReactNode | undefined
+  start?: Date | undefined
+  end?: Date | undefined
+  resourceId?: string | number
+}
+
+interface PropsWithLocalizer {
+  localizer: DateLocalizer
+}
+export type ViewRangeFn = (
+  date: Date,
+  props: PropsWithLocalizer
+) => DateRangeList
+
+interface NavigateProps {
+  localizer: DateLocalizer
+}
+
+export type ViewNavigate = (
+  date: Date,
+  action: NavigateAction,
+  props: NavigateProps
+) => Date

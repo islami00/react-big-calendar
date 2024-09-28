@@ -1,11 +1,7 @@
-import type { DateLocalizer, Event } from 'react-big-calendar'
-import type {
-  DateRangeList,
-  GetSlotMetricsArgsAccessors,
-} from './DateSlotMetrics.types'
-import type { RowSegment, EventLevelsList } from './common'
-
-export interface EventLevelsReturns<TEvent = Event> {
+import type { GetSlotMetricsArgsAccessors } from './utils'
+import type { RBCEvent } from '../misc.types'
+import type { DateLocalizer } from '../localizer.types'
+export interface EventLevelsReturns<TEvent extends object = RBCEvent> {
   levels: EventLevelsList<TEvent>
   extra: RowSegment<TEvent>[]
 }
@@ -14,9 +10,18 @@ export type EventLevelsFn = (
   limit?: number
 ) => EventLevelsReturns
 
-export type EventSegmentsFn = <TEvent = Event>(
+export type EventSegmentsFn = <TEvent extends object = RBCEvent>(
   event: TEvent,
   range: DateRangeList,
   accessors: GetSlotMetricsArgsAccessors<TEvent>,
   localizer: DateLocalizer
 ) => RowSegment<TEvent>
+export interface RowSegment<TEvent = RBCEvent> {
+  event: TEvent
+  span: number
+  left: number
+  right: number
+}
+export type EventLevelsList<TEvent = RBCEvent> = RowSegment<TEvent>[][]
+
+export type DateRangeList = [Date, ...Date[]]

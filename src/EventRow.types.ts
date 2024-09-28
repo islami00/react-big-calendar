@@ -1,16 +1,14 @@
 import * as React from 'react'
-import type { RowSegment } from './utils/common'
-import type { Event } from 'react-big-calendar'
+
+import type { RowSegment } from './utils/eventLevels.types'
+import type { RBCEvent } from './misc.types'
 import type { GetSlotMetricsReturns } from './utils/DateSlotMetrics.types'
-
-
-
-export interface EventRowProps<TEvent = Event> {
+export interface EventRowProps<TEvent extends object = RBCEvent> {
   segments: RowSegment<TEvent>[]
   slotMetrics: GetSlotMetricsReturns<TEvent>
   className?: string
 }
 
-export class EventRow<TEvent = Event> extends React.Component<
+export class EventRow<TEvent extends object = RBCEvent> extends React.Component<
   EventRowProps<TEvent>
 > {}

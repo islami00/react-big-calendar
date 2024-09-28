@@ -1,8 +1,9 @@
+/** @import * as types from './TimeGutterAllDay.types*/
 import clsx from 'clsx'
 import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
 
-/** @type {import("./TimeGutterAllDay.types").TimeGutterAllDayComponent}  */
+/** @type {types.TimeGutterAllDayComponent}  */
 const TimeGutterAllDay = ({
   localizer,
   getNow,
@@ -58,7 +59,7 @@ TimeGutterAllDay.propTypes = {
   gutterRef: PropTypes.any,
   accessors: PropTypes.object.isRequired,
 }
-/** @type {import("./TimeGutterAllDay.types").TimeGutterAllDayFWComponent}  */
+/** @type {types.TimeGutterAllDayForwardedComponent}  */
 export default React.forwardRef((props, ref) => (
   <TimeGutterAllDay gutterRef={ref} {...props} />
 ))

@@ -1,3 +1,5 @@
+/** @import * as types from './DateContentRow.types*/
+/** @import * as bgcTypes from './BackgroundCells.types*/
 import React, { createRef } from 'react'
 import clsx from 'clsx'
 import getHeight from 'dom-helpers/height'
@@ -11,6 +13,9 @@ import NoopWrapper from './NoopWrapper'
 import ScrollableWeekWrapper from './ScrollableWeekWrapper'
 import * as DateSlotMetrics from './utils/DateSlotMetrics'
 
+/**
+ * @extends {types.DateContentRow}
+ */
 class DateContentRow extends React.Component {
   constructor(...args) {
     super(...args)
@@ -22,6 +27,7 @@ class DateContentRow extends React.Component {
     this.slotMetrics = DateSlotMetrics.getSlotMetrics()
   }
 
+  /** @param {bgcTypes.OnSelectSlotArgs} slot*/
   handleSelectSlot = (slot) => {
     const { range, onSelectSlot } = this.props
 

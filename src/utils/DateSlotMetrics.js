@@ -1,9 +1,11 @@
+/** @import * as types from './DateSlotMetrics.types' */
+/** @import {RowSegment} from './eventLevels.types' */
 import memoize from 'memoize-one'
 import { eventSegments, endOfRange, eventLevels } from './eventLevels'
 
 /**
- * @param options
- * @type {()=>import("./DateSlotMetrics.types").IsSegmentInSlot}
+ * @param {RowSegment} seg
+ * @param {number} slot
  */
 let isSegmentInSlot = (seg, slot) => seg.left <= slot && seg.right >= slot
 
@@ -11,12 +13,12 @@ const isEqual = (a, b) =>
   a[0].range === b[0].range && a[0].events === b[0].events
 
 /**
- * @type {()=>import("./DateSlotMetrics.types").GetSlotMetrics}
+ * @returns {types.GetSlotMetrics}
  */
 export function getSlotMetrics() {
   return memoize(
     /**
-     * @type  {import("./DateSlotMetrics.types").GetSlotMetrics}
+     * @type  {types.GetSlotMetrics}
      */
     (options) => {
       const { range, events, maxRows, minRows, accessors, localizer } = options

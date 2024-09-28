@@ -1,8 +1,8 @@
+/** @import * as types from './Resources.types*/
 export const NONE = {}
 
 /**
- *
- * @type {import("./Resources.types").ResourcesFn}
+ * @type {types.ResourcesFn}
  */
 export default function Resources(resources, accessors) {
   return {
@@ -13,7 +13,6 @@ export default function Resources(resources, accessors) {
       )
     },
 
-    /** @returns {Map<any,import('react-big-calendar').Event[]>} */
     groupEvents(events) {
       const eventsByResource = new Map()
 

@@ -1,4 +1,4 @@
-import type { RBCEvent, RBCResource } from '../../src/utils/common'
+import type { RBCEvent, RBCResource } from '../../src/misc.types'
 
 export interface ResourceEvents {
   events: RBCEvent[]

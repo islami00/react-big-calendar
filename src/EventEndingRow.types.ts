@@ -1,6 +1,8 @@
-import type { Event } from 'react-big-calendar'
-import type { RowSegment } from './utils/common'
+import type * as React from 'react'
+import type { RowSegment } from './utils/eventLevels.types'
 
 export interface EventEndingRowProps {
-  segments: RowSegment<Event>[]
+  segments: RowSegment[]
 }
+
+export declare class EventEndingRow extends React.Component<EventEndingRowProps> {}

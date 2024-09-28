@@ -1,3 +1,4 @@
+/** @import * as types from './localizer.types*/
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import {
@@ -137,9 +138,9 @@ function isSameDate(date1, date2) {
 function startAndEndAreDateOnly(start, end) {
   return isJustDate(start) && isJustDate(end)
 }
-/** @type {import("./localizer.types").DateLocalizer} */
+/** @extends {types.DateLocalizer} */
 export class DateLocalizer {
-  /** @param {import("./localizer.types").DateLocalizerSpec} spec */
+  /** @param {types.DateLocalizerSpec} spec */
   constructor(spec) {
     invariant(
       typeof spec.format === 'function',

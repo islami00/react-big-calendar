@@ -1,5 +1,5 @@
-import { DateLocalizer } from 'react-big-calendar'
-
+import type { DateLocalizer } from '../localizer.types'
+import type { SelectBoundsRectObject } from '../Selection.types'
 export interface TimeSlotsGetSlotMetricsArgs {
   min: Date
   max: Date
@@ -7,15 +7,7 @@ export interface TimeSlotsGetSlotMetricsArgs {
   timeslots: number
   localizer: DateLocalizer
 }
-// From Selection.js
-interface SelectionBox {
-  top: number
-  left: number
-  x: number
-  y: number
-  right: number
-  bottom: number
-}
+
 interface SelectionNodeBounds {
   top: number
   left: number
@@ -33,7 +25,7 @@ export interface TimeSlotsGetSlotMetricsReturns {
   closestSlotToPosition: (percent: number) => Date
 
   closestSlotFromPoint: (
-    point: SelectionBox,
+    point: SelectBoundsRectObject,
     boundaryRect: SelectionNodeBounds
   ) => Date
 

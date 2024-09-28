@@ -1,9 +1,8 @@
-import type { DateLocalizer, Event } from 'react-big-calendar'
+import type { DateLocalizer } from '../localizer.types'
+import type { DateRangeList, RBCEvent } from '../misc.types'
+import type { EventLevelsList, RowSegment } from './eventLevels.types'
 
-import type { RowSegment, EventLevelsList } from './common'
-
-export type DateRangeList = [Date, ...Date[]]
-export interface GetSlotMetricsReturns<TEvent extends Event = Event> {
+export interface GetSlotMetricsReturns<TEvent extends object = RBCEvent> {
   first: Date
   last: Date
   levels: EventLevelsList<TEvent>
@@ -12,13 +11,13 @@ export interface GetSlotMetricsReturns<TEvent extends Event = Event> {
   slots: number
   clone: (arg: GetSlotMetricsArgs<TEvent>) => GetSlotMetricsReturns<TEvent>
   getDateForSlot: (slotNumber: number) => Date
-  getSlotForDate: (date: Date) => DateRangeList
+  getSlotForDate: (date: Date) => Date | undefined
   getEventsForSlot: (slot: number) => TEvent[]
   continuesPrior: (event: TEvent) => boolean
   continuesAfter: (event: TEvent) => boolean
 }
 
-export interface GetSlotMetricsArgsAccessors<TEvent extends Event = Event> {
+export interface GetSlotMetricsArgsAccessors<TEvent extends object = RBCEvent> {
   title?: ((event: TEvent) => string) | undefined
   tooltip?: ((event: TEvent) => string) | undefined
   end?: ((event: TEvent) => Date) | undefined
@@ -26,7 +25,7 @@ export interface GetSlotMetricsArgsAccessors<TEvent extends Event = Event> {
   allDay?: ((event: TEvent) => boolean) | undefined
 }
 
-interface GetSlotMetricsArgs<TEvent extends Event = Event> {
+interface GetSlotMetricsArgs<TEvent extends object = RBCEvent> {
   range: DateRangeList
   events: TEvent[]
   maxRows: number
@@ -38,5 +37,3 @@ interface GetSlotMetricsArgs<TEvent extends Event = Event> {
 export type GetSlotMetrics = (
   options: GetSlotMetricsArgs
 ) => GetSlotMetricsReturns
-
-export type IsSegmentInSlot = (seg: number, slot: number) => boolean

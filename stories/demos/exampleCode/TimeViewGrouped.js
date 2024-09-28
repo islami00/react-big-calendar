@@ -80,6 +80,7 @@ export default function CustomView({ localizer }) {
           selectable
           onSelectSlot={console.log}
           onSelectEvent={console.log}
+          doShowMoreDrillDown={false}
         />
       </div>
     </Fragment>
