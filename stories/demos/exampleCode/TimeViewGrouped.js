@@ -5,7 +5,7 @@ import * as dates from 'date-arithmetic'
 import { Calendar, Views, Navigate, DateLocalizer } from 'react-big-calendar'
 import TimeGridAllDay from '../../../src/TimeGridAllDay' // use 'react-big-calendar/lib/TimeGridAllDay'. Can't 'alias' in Storybook
 import Week from '../../../src/Week' // use 'react-big-calendar/lib/Week'. Can't 'alias' in Storybook
-import events from '../../resources/events'
+import resourceEvents from '../../resources/resourceEvents'
 import DemoLink from '../../DemoLink.component'
 
 function MyWeek({
@@ -73,7 +73,8 @@ export default function CustomView({ localizer }) {
         <Calendar
           defaultDate={defaultDate}
           defaultView={Views.WEEK}
-          events={events}
+          events={resourceEvents.events}
+          resources={resourceEvents.list}
           localizer={localizer}
           views={views}
           selectable

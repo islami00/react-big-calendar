@@ -142,7 +142,6 @@
   pointer-events: none;
 }
 
-
 .brbc-time-view-all-day-inline {
   display: flex;
   flex-direction: column;
@@ -151,30 +150,19 @@
   border: 1px solid $calendar-border;
   min-height: 0;
 
-  .rbc-time-gutter {
-    white-space: nowrap;
-    text-align: right;
-  }
-
-  .rbc-allday-events {
-    position: relative;
-    z-index: 4;
-  }
-
   .rbc-row {
     box-sizing: border-box;
-    min-height: 20px;
   }
-  .rbc-time-content-row {
+  .brbc-time-content-row {
     width: 100%;
 
     position: relative;
   }
 
-  .rbc-time-content-row.last {
+  .brbc-time-content-row.brbc-last {
     flex-grow: 1;
   }
-  .rbc-time-content-event-list {
+  .brbc-time-content-event-list {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -192,14 +180,30 @@
     overflow-y: auto;
     position: relative;
 
-    > .rbc-time-gutter {
+    > .brbc-time-gutter {
       flex: none;
     }
+  }
 
-    > .rbc-day-slot {
-      width: 100%;
-      user-select: none;
-      -webkit-user-select: none;
+  .brbc-time-gutter {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+
+    .brbc-timeslot-group {
+      flex: 1;
     }
+  }
+  .brbc-time-gutter-header {
+    border-bottom: 1px solid $calendar-border;
+  }
+
+  .brbc-resource-row {
+    // Enough to fit two events, or one and show more
+    min-height: 50px;
+    max-height: 50px;
+  }
+  .brbc-resource-row.brbc-last {
+    max-height: 100%;
   }
 }

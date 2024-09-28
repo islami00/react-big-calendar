@@ -10,7 +10,6 @@
   }
 }
 
-
 .rbc-timeslot-group {
   border-bottom: 1px solid $cell-border;
   min-height: 40px;
@@ -54,7 +53,7 @@
     overflow: hidden;
     position: absolute;
   }
-  
+
   .rbc-background-event {
     @extend .rbc-event;
     opacity: 0.75;
@@ -113,7 +112,7 @@
   .rbc-day-bg {
     width: 140px;
     // min-width: 0;
-    flex:  1 1 0;
+    flex: 1 1 0;
     flex-basis: 0 px;
   }
 }
@@ -134,9 +133,3 @@
   text-align: center;
 }
 
-.brbc-time-slot {
-  min-height: 40px;
-}
-.brbc-time-header-gutter {
-  border-bottom: 1px solid $calendar-border;
-}

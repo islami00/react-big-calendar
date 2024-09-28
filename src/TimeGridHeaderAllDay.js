@@ -81,7 +81,7 @@ class TimeGridHeaderAllDay extends React.Component {
         className={clsx('rbc-time-header', isOverflowing && 'rbc-overflowing')}
       >
         <div
-          className="rbc-label brbc-time-header-gutter"
+          className="rbc-label brbc-time-gutter-header"
           style={{ width, minWidth: width, maxWidth: width }}
         >
           {TimeGutterHeader && <TimeGutterHeader />}

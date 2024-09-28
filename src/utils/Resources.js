@@ -2,16 +2,14 @@ export const NONE = {}
 
 /**
  *
- * @param {object[]} resources
- * @param {object} accessors
- * @returns
+ * @type {import("./Resources.types").ResourcesFn}
  */
 export default function Resources(resources, accessors) {
   return {
     map(fn) {
-      if (!resources) return [fn([NONE, null], 0, [])]
+      if (!resources) return [fn([NONE, null], 0, 1)]
       return resources.map((resource, idx, array) =>
-        fn([accessors.resourceId(resource), resource], idx, array)
+        fn([accessors.resourceId(resource), resource], idx, array.length)
       )
     },
 

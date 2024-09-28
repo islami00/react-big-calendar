@@ -3620,10 +3620,10 @@
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.15.tgz#adde8a060ec9c305a82de1babc1056e73bd64dce"
   integrity sha512-uXHQKES6DQKKCLh441Xv/dwxOq1TVS3JPUMlEqoEglvlhR6Mxnlew/Xq/LRVHpLyk7iK3zODe1qYHIMltO7XGg==
 
-"@types/react-big-calendar@^1.8.11":
-  version "1.8.11"
-  resolved "https://registry.yarnpkg.com/@types/react-big-calendar/-/react-big-calendar-1.8.11.tgz#e82a3010dab477f5a2ba841b4e33108c9f5222a4"
-  integrity sha512-/j9WOY79Q9A3cLtAa/cEKCi9DPmzcjfG7WaKW/6xlJOLFRkqCb0d2BRxtBETLO0yzLY/nDC95z9Cnp9vG2EmjQ==
+"@types/react-big-calendar@^1.8.12":
+  version "1.8.12"
+  resolved "https://registry.yarnpkg.com/@types/react-big-calendar/-/react-big-calendar-1.8.12.tgz#a5afb0d11d3cd2d5f99c62de4a2425b3d0357a4e"
+  integrity sha512-dN9kPm2cLgPKDVc8q7RdXMehZxQea+LlcWPB8sU3ES7S3WF/ff8e87NfhJREfzHWEeEJBx2TqRKQRkdHA9vNFw==
   dependencies:
     "@types/date-arithmetic" "*"
     "@types/prop-types" "*"

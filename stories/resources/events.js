@@ -1,5 +1,5 @@
 const now = new Date()
-
+/** @type {import("../../src/utils/common").RBCEvent[]} */
 export default [
   /* {
     id: 0,
@@ -210,85 +210,6 @@ export default [
     end: new Date(2023, 2, 26, 4, 30, 0),
   },
 
-  // My testing
-  {
-    id: 28,
-    title: 'Today to two days after',
-    start: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0),
-    end: new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 1,
-      4,
-      30,
-      0
-    ),
-    customData: {
-      groupId: 'uuid-0',
-    },
-  },
-  {
-    id: 28,
-    title: 'Same day, different tag to two days after',
-    start: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0),
-    end: new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 1,
-      4,
-      30,
-      0
-    ),
-    customData: {
-      groupId: 'uuid-2',
-    },
-  },
-  {
-    id: 28,
-    title: 'Two days after, one day extra',
-    start: new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 2,
-      0,
-      0,
-      0
-    ),
-    end: new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 3,
-      4,
-      30,
-      0
-    ),
-    customData: {
-      groupId: 'uuid-1',
-    },
-  },
-  {
-    id: 28,
-    title: 'Same Two days after, one day, different tag',
-    start: new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 2,
-      0,
-      0,
-      0
-    ),
-    end: new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 3,
-      4,
-      30,
-      0
-    ),
-    customData: {
-      groupId: 'uuid-2',
-    },
-  },
   // --
   // DST BUG (renders differently in GMT+1 vs GMT+5)
   // Assuming DST ends 2am Nov 2024
@@ -314,7 +235,7 @@ export default [
     // 180mins were added here
     end: new Date('2024-11-03T07:00:00.000Z'),
 
-    title: 'Event B',
+    title: 'DST Ended here in Washington',
   },
   // What do we do?
   // What if we don't switch tz?

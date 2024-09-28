@@ -23,7 +23,10 @@ export default class TimeGridAllDay extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { gutterWidth: undefined, isOverflowing: null }
+    this.state = {
+      gutterWidth: undefined,
+      isOverflowing: null,
+    }
 
     this.scrollRef = React.createRef()
     this.contentRef = React.createRef()
@@ -133,13 +136,9 @@ export default class TimeGridAllDay extends Component {
     })
   }
   /**
-   *
-   * @param {Date[]} range
-   * @param {import('react-big-calendar').Event[]} events
-   * @param {object} resource
-   * @param {boolean} isLast
+   * @type {import("./TimeGridAllDay.types").TimeGridAllDayClass['renderEvents']}
    */
-  renderEvents(range, events, resource, isLast) {
+  renderEvents(groupedEvents, resourceTuple, idx, arrayLen) {
     let {
       //
       rtl,
@@ -150,23 +149,30 @@ export default class TimeGridAllDay extends Component {
       localizer,
       accessors,
       components,
+      range,
       //
     } = this.props
 
-    const resourceId = accessors.resourceId(resource)
+    const [resourceId] = resourceTuple
+    const isLast = idx === arrayLen - 1
+
+    const events = groupedEvents.get(resourceId) || []
 
     return (
       <DateContentRow
         getNow={getNow}
+        key={resourceId.toString()}
         rtl={rtl}
         minRows={1}
-        // Add +1 to include showMore button row in the row limit
-        maxRows={2}
+        // Expect styles to only have two rows, otherwise use a similar method as Month to change it
+        maxRows={isLast ? Infinity : 2}
         range={range}
         events={events}
         resourceId={resourceId}
-        data-last
-        className={clsx('rbc-time-content-row', isLast && 'last')}
+        className={clsx(
+          'brbc-time-content-row brbc-resource-row',
+          isLast && 'brbc-last'
+        )}
         selectable={selectable}
         selected={this.props.selected}
         components={components}
@@ -198,8 +204,6 @@ export default class TimeGridAllDay extends Component {
       accessors,
       getters,
       localizer,
-      min,
-      max,
       showMultiDayTimes,
       longPressThreshold,
       resizable,
@@ -286,26 +290,22 @@ export default class TimeGridAllDay extends Component {
           onScroll={this.handleScroll}
         >
           <TimeGutterAllDay
-            date={start}
             ref={this.gutterRef}
             localizer={localizer}
-            min={localizer.merge(start, min)}
-            max={localizer.merge(start, max)}
-            step={this.props.step}
             getNow={this.props.getNow}
-            timeslots={this.props.timeslots}
             components={components}
-            className="rbc-time-gutter"
             getters={getters}
             resources={memoizedResourcesResult}
             accessors={this.props.accessors}
           />
-          <div className="rbc-time-content-event-list">
-            {memoizedResourcesResult.map(([id, resource], idx, array) => {
-              const eventsToDisplay = groupedEvents.get(id) || []
-
-              const isLast = array.length ? idx === array.length - 1 : true
-              return this.renderEvents(range, eventsToDisplay, resource, isLast)
+          <div className="brbc-time-content-event-list">
+            {memoizedResourcesResult.map((resourceTuple, idx, arrayLen) => {
+              return this.renderEvents(
+                groupedEvents,
+                resourceTuple,
+                idx,
+                arrayLen
+              )
             })}
           </div>
         </div>
