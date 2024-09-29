@@ -19,10 +19,11 @@
   "module": "dist/react-big-calendar.esm.js",
   "style": "lib/css/react-big-calendar.css",
   "files": [
-    "lib/",
-    "dist/",
-    "src/",
+    "lib",
+    "dist",
+    "src",
     "./*",
+    "./.*",
     "LICENSE",
     "README.md",
     "CHANGELOG.md"
