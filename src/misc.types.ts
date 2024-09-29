@@ -1,6 +1,6 @@
 import type { NavigateAction } from 'react-big-calendar'
 import type { DateLocalizer } from './localizer.types'
-
+import type * as React from 'react'
 export type PropTypeFunc = (...args: any[]) => void
 
 export type DateRangeList = [Date, ...Date[]]
@@ -36,3 +36,10 @@ export type ViewNavigate = (
   action: NavigateAction,
   props: NavigateProps
 ) => Date
+export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
+
+export interface ForwardRefFunction {
+  <T, P = {}>(
+    render: (props: P, ref: React.ForwardedRef<T>) => React.ReactElement | null
+  ): (props: P & React.RefAttributes<T>) => React.ReactElement | null
+}

@@ -1,6 +1,7 @@
 import type * as React from 'react'
 import type { TimeGridProps } from 'react-big-calendar'
 import type { RBCEvent, RBCResource } from './misc.types'
+import type { CalendarComponentsWithDefaults } from './Calendar.types'
 
 export interface TimeGridAllDayState {
   gutterWidth: number | undefined
@@ -17,11 +18,16 @@ export interface TimeGridAllDayState {
   } | null
   isOverflowing: boolean | null
 }
-
+interface TimeGridAllDayProps<
+  TEvent extends object = RBCEvent,
+  TResource extends object = RBCResource
+> extends TimeGridProps<TEvent, TResource> {
+  components: CalendarComponentsWithDefaults<TEvent, TResource>
+}
 export declare class TimeGridAllDay<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
 > extends React.Component<
-  TimeGridProps<TEvent, TResource>,
+  TimeGridAllDayProps<TEvent, TResource>,
   TimeGridAllDayState
 > {}
