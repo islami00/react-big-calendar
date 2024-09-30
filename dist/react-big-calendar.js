@@ -3148,6 +3148,7 @@
       })()
     }
   })(react_development)
+
   ;(function (module) {
     {
       module.exports = react_development
@@ -9183,12 +9184,14 @@
     var popperInstanceRef = reactExports.useRef()
     var update = reactExports.useCallback(function () {
       var _popperInstanceRef$cu
+
       ;(_popperInstanceRef$cu = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu.update()
     }, [])
     var forceUpdate = reactExports.useCallback(function () {
       var _popperInstanceRef$cu2
+
       ;(_popperInstanceRef$cu2 = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu2.forceUpdate()
@@ -10045,6 +10048,7 @@
       })()
     }
   })(scheduler_development)
+
   ;(function (module) {
     {
       module.exports = scheduler_development
@@ -10413,6 +10417,7 @@
       })()
     }
   })(schedulerTracing_development)
+
   ;(function (module) {
     {
       module.exports = schedulerTracing_development
@@ -10810,6 +10815,7 @@
         )
       }) // A few React string attributes have a different name.
       // This is a mapping from React prop names to the attribute names.
+
       ;[
         ['acceptCharset', 'accept-charset'],
         ['className', 'class'],
@@ -10830,6 +10836,7 @@
       }) // These are "enumerated" HTML attributes that accept "true" and "false".
       // In React, we let users pass `true` and `false` even though technically
       // these aren't boolean attributes (they are coerced to strings).
+
       ;['contentEditable', 'draggable', 'spellCheck', 'value'].forEach(
         function (name) {
           properties[name] = new PropertyInfoRecord(
@@ -10846,6 +10853,7 @@
       // In React, we let users pass `true` and `false` even though technically
       // these aren't boolean attributes (they are coerced to strings).
       // Since these are SVG attributes, their attribute names are case-sensitive.
+
       ;[
         'autoReverse',
         'externalResourcesRequired',
@@ -10862,6 +10870,7 @@
           false
         )
       }) // These are HTML boolean attributes.
+
       ;[
         'allowFullScreen',
         'async', // Note: there is a special case that prevents it from being written to the DOM
@@ -10899,6 +10908,7 @@
         )
       }) // These are the few React props that we set as DOM properties
       // rather than attributes. These are all booleans.
+
       ;[
         'checked', // Note: `option.selected` is not updated if `select.multiple` is
         // disabled with `removeAttribute`. We have special logic for handling this.
@@ -10919,6 +10929,7 @@
         )
       }) // These are HTML attributes that are "overloaded booleans": they behave like
       // booleans, but can also accept a string value.
+
       ;[
         'capture',
         'download', // NOTE: if you add a camelCased prop to this list,
@@ -10935,6 +10946,7 @@
           false
         )
       }) // These are HTML attributes that must be positive numbers.
+
       ;[
         'cols',
         'rows',
@@ -10953,6 +10965,7 @@
           false
         )
       }) // These are HTML attributes that must be numbers.
+
       ;['rowSpan', 'start'].forEach(function (name) {
         properties[name] = new PropertyInfoRecord(
           name,
@@ -11062,6 +11075,7 @@
           false
         )
       }) // String SVG attributes with the xlink namespace.
+
       ;[
         'xlink:actuate',
         'xlink:arcrole',
@@ -11083,6 +11097,7 @@
           false
         )
       }) // String SVG attributes with the xml namespace.
+
       ;[
         'xml:base',
         'xml:lang',
@@ -11103,6 +11118,7 @@
       }) // These attribute exists both in HTML and SVG.
       // The attribute name is case-sensitive in SVG so we can't just use
       // the React name like we do for attributes that exist only in HTML.
+
       ;['tabIndex', 'crossOrigin'].forEach(function (attributeName) {
         properties[attributeName] = new PropertyInfoRecord(
           attributeName,
@@ -45983,6 +45999,316 @@
   })(React.Component)
   EventRow.defaultProps = _objectSpread2({}, EventRowMixin.defaultProps)
 
+  /* Built-in method references for those with the same name as other `lodash` methods. */
+
+  var nativeCeil = Math.ceil,
+    nativeMax$2 = Math.max
+
+  /**
+   * The base implementation of `_.range` and `_.rangeRight` which doesn't
+   * coerce arguments.
+   *
+   * @private
+   * @param {number} start The start of the range.
+   * @param {number} end The end of the range.
+   * @param {number} step The value to increment or decrement by.
+   * @param {boolean} [fromRight] Specify iterating from right to left.
+   * @returns {Array} Returns the range of numbers.
+   */
+  function baseRange$1(start, end, step, fromRight) {
+    var index = -1,
+      length = nativeMax$2(nativeCeil((end - start) / (step || 1)), 0),
+      result = Array(length)
+
+    while (length--) {
+      result[fromRight ? length : ++index] = start
+      start += step
+    }
+    return result
+  }
+
+  var _baseRange = baseRange$1
+
+  var baseRange = _baseRange,
+    isIterateeCall$2 = _isIterateeCall,
+    toFinite = toFinite_1
+
+  /**
+   * Creates a `_.range` or `_.rangeRight` function.
+   *
+   * @private
+   * @param {boolean} [fromRight] Specify iterating from right to left.
+   * @returns {Function} Returns the new range function.
+   */
+  function createRange$1(fromRight) {
+    return function (start, end, step) {
+      if (
+        step &&
+        typeof step != 'number' &&
+        isIterateeCall$2(start, end, step)
+      ) {
+        end = step = undefined
+      }
+      // Ensure the sign of `-0` is preserved.
+      start = toFinite(start)
+      if (end === undefined) {
+        end = start
+        start = 0
+      } else {
+        end = toFinite(end)
+      }
+      step = step === undefined ? (start < end ? 1 : -1) : toFinite(step)
+      return baseRange(start, end, step, fromRight)
+    }
+  }
+
+  var _createRange = createRange$1
+
+  var createRange = _createRange
+
+  /**
+   * Creates an array of numbers (positive and/or negative) progressing from
+   * `start` up to, but not including, `end`. A step of `-1` is used if a negative
+   * `start` is specified without an `end` or `step`. If `end` is not specified,
+   * it's set to `start` with `start` then set to `0`.
+   *
+   * **Note:** JavaScript follows the IEEE-754 standard for resolving
+   * floating-point values which can produce unexpected results.
+   *
+   * @static
+   * @since 0.1.0
+   * @memberOf _
+   * @category Util
+   * @param {number} [start=0] The start of the range.
+   * @param {number} end The end of the range.
+   * @param {number} [step=1] The value to increment or decrement by.
+   * @returns {Array} Returns the range of numbers.
+   * @see _.inRange, _.rangeRight
+   * @example
+   *
+   * _.range(4);
+   * // => [0, 1, 2, 3]
+   *
+   * _.range(-4);
+   * // => [0, -1, -2, -3]
+   *
+   * _.range(1, 5);
+   * // => [1, 2, 3, 4]
+   *
+   * _.range(0, 20, 5);
+   * // => [0, 5, 10, 15]
+   *
+   * _.range(0, -4, -1);
+   * // => [0, -1, -2, -3]
+   *
+   * _.range(1, 4, 0);
+   * // => [1, 1, 1]
+   *
+   * _.range(0);
+   * // => []
+   */
+  var range = createRange()
+
+  var range_1 = range
+
+  /**
+   * @param {RowSegment} seg
+   * @param {number} slot
+   */
+  var isSegmentInSlot$1 = function isSegmentInSlot(seg, slot) {
+    return seg.left <= slot && seg.right >= slot
+  }
+  var eventsInSlot = function eventsInSlot(segments, slot) {
+    return segments
+      .filter(function (seg) {
+        return isSegmentInSlot$1(seg, slot)
+      })
+      .map(function (seg) {
+        return seg.event
+      })
+  }
+
+  /** @extends  {types.EventEndingRow} */
+  var EventEndingRow = /*#__PURE__*/ (function (_React$Component) {
+    function EventEndingRow() {
+      _classCallCheck(this, EventEndingRow)
+      return _callSuper(this, EventEndingRow, arguments)
+    }
+    _inherits(EventEndingRow, _React$Component)
+    return _createClass(EventEndingRow, [
+      {
+        key: 'render',
+        value: function render() {
+          var _this$props = this.props,
+            segments = _this$props.segments,
+            slots = _this$props.slotMetrics.slots
+          var rowSegments = segments
+          var current = 1,
+            lastEnd = 1,
+            row = []
+          while (current <= slots) {
+            var key = '_lvl_' + current
+            // Get the first event that fits into this slot
+            var _ref =
+                rowSegments.filter(function (seg) {
+                  return isSegmentInSlot$1(seg, current)
+                })[0] || {},
+              event = _ref.event,
+              left = _ref.left,
+              right = _ref.right,
+              span = _ref.span //eslint-disable-line
+            if (!event) {
+              current++
+              continue
+            }
+            var gap = Math.max(0, left - lastEnd)
+            if (this.canRenderSlotEvent(left, span)) {
+              var content = EventRowMixin.renderEvent(this.props, event)
+              if (gap) {
+                row.push(EventRowMixin.renderSpan(slots, gap, key + '_gap'))
+              }
+              row.push(EventRowMixin.renderSpan(slots, span, key, content))
+              lastEnd = current = right + 1
+            } else {
+              if (gap) {
+                row.push(EventRowMixin.renderSpan(slots, gap, key + '_gap'))
+              }
+              row.push(
+                EventRowMixin.renderSpan(
+                  slots,
+                  1,
+                  key,
+                  this.renderShowMore(segments, current)
+                )
+              )
+              lastEnd = current = current + 1
+            }
+          }
+          return /*#__PURE__*/ React.createElement(
+            'div',
+            {
+              className: 'rbc-row',
+            },
+            row
+          )
+        },
+      },
+      {
+        key: 'canRenderSlotEvent',
+        value: function canRenderSlotEvent(slot, span) {
+          var segments = this.props.segments
+          return range_1(slot, slot + span).every(function (s) {
+            var count = eventsInSlot(segments, s).length
+            return count === 1
+          })
+        },
+      },
+      {
+        key: 'renderShowMore',
+        value: function renderShowMore(segments, slot) {
+          var _this = this
+          var _this$props2 = this.props,
+            localizer = _this$props2.localizer,
+            slotMetrics = _this$props2.slotMetrics
+          var events = slotMetrics.getEventsForSlot(slot)
+          var remainingEvents = eventsInSlot(segments, slot)
+          var count = remainingEvents.length
+          return count
+            ? /*#__PURE__*/ React.createElement(
+                'button',
+                {
+                  type: 'button',
+                  key: 'sm_' + slot,
+                  className: clsx('rbc-button-link', 'rbc-show-more'),
+                  onClick: function onClick(e) {
+                    return _this.showMore(slot, e)
+                  },
+                },
+                localizer.messages.showMore(count, remainingEvents, events)
+              )
+            : false
+        },
+      },
+      {
+        key: 'showMore',
+        value: function showMore(slot, e) {
+          e.preventDefault()
+          e.stopPropagation()
+          this.props.onShowMore(slot, e.target)
+        },
+      },
+    ])
+  })(React.Component)
+  EventEndingRow.defaultProps = _objectSpread2({}, EventRowMixin.defaultProps)
+
+  var ScrollableWeekWrapper = function ScrollableWeekWrapper(_ref) {
+    var children = _ref.children
+    return /*#__PURE__*/ React.createElement(
+      'div',
+      {
+        className: 'rbc-row-content-scroll-container',
+      },
+      children
+    )
+  }
+
+  var safeIsNaN =
+    Number.isNaN ||
+    function ponyfill(value) {
+      return typeof value === 'number' && value !== value
+    }
+  function isEqual$1(first, second) {
+    if (first === second) {
+      return true
+    }
+    if (safeIsNaN(first) && safeIsNaN(second)) {
+      return true
+    }
+    return false
+  }
+  function areInputsEqual(newInputs, lastInputs) {
+    if (newInputs.length !== lastInputs.length) {
+      return false
+    }
+    for (var i = 0; i < newInputs.length; i++) {
+      if (!isEqual$1(newInputs[i], lastInputs[i])) {
+        return false
+      }
+    }
+    return true
+  }
+
+  function memoizeOne(resultFn, isEqual) {
+    if (isEqual === void 0) {
+      isEqual = areInputsEqual
+    }
+    var cache = null
+    function memoized() {
+      var newArgs = []
+      for (var _i = 0; _i < arguments.length; _i++) {
+        newArgs[_i] = arguments[_i]
+      }
+      if (
+        cache &&
+        cache.lastThis === this &&
+        isEqual(newArgs, cache.lastArgs)
+      ) {
+        return cache.lastResult
+      }
+      var lastResult = resultFn.apply(this, newArgs)
+      cache = {
+        lastResult: lastResult,
+        lastArgs: newArgs,
+        lastThis: this,
+      }
+      return lastResult
+    }
+    memoized.clear = function clear() {
+      cache = null
+    }
+    return memoized
+  }
+
   /**
    * The base implementation of `_.findIndex` and `_.findLastIndex` without
    * support for iteratee shorthands.
@@ -46799,7 +47125,7 @@
     toInteger = toInteger_1
 
   /* Built-in method references for those with the same name as other `lodash` methods. */
-  var nativeMax$2 = Math.max
+  var nativeMax$1 = Math.max
 
   /**
    * This method is like `_.find` except that it returns the index of the first
@@ -46843,7 +47169,7 @@
     }
     var index = fromIndex == null ? 0 : toInteger(fromIndex)
     if (index < 0) {
-      index = nativeMax$2(length + index, 0)
+      index = nativeMax$1(length + index, 0)
     }
     return baseFindIndex(array, baseIteratee$3(predicate), index)
   }
@@ -46991,316 +47317,6 @@
       evtA: evtA,
       evtB: evtB,
     })
-  }
-
-  /* Built-in method references for those with the same name as other `lodash` methods. */
-
-  var nativeCeil = Math.ceil,
-    nativeMax$1 = Math.max
-
-  /**
-   * The base implementation of `_.range` and `_.rangeRight` which doesn't
-   * coerce arguments.
-   *
-   * @private
-   * @param {number} start The start of the range.
-   * @param {number} end The end of the range.
-   * @param {number} step The value to increment or decrement by.
-   * @param {boolean} [fromRight] Specify iterating from right to left.
-   * @returns {Array} Returns the range of numbers.
-   */
-  function baseRange$1(start, end, step, fromRight) {
-    var index = -1,
-      length = nativeMax$1(nativeCeil((end - start) / (step || 1)), 0),
-      result = Array(length)
-
-    while (length--) {
-      result[fromRight ? length : ++index] = start
-      start += step
-    }
-    return result
-  }
-
-  var _baseRange = baseRange$1
-
-  var baseRange = _baseRange,
-    isIterateeCall$2 = _isIterateeCall,
-    toFinite = toFinite_1
-
-  /**
-   * Creates a `_.range` or `_.rangeRight` function.
-   *
-   * @private
-   * @param {boolean} [fromRight] Specify iterating from right to left.
-   * @returns {Function} Returns the new range function.
-   */
-  function createRange$1(fromRight) {
-    return function (start, end, step) {
-      if (
-        step &&
-        typeof step != 'number' &&
-        isIterateeCall$2(start, end, step)
-      ) {
-        end = step = undefined
-      }
-      // Ensure the sign of `-0` is preserved.
-      start = toFinite(start)
-      if (end === undefined) {
-        end = start
-        start = 0
-      } else {
-        end = toFinite(end)
-      }
-      step = step === undefined ? (start < end ? 1 : -1) : toFinite(step)
-      return baseRange(start, end, step, fromRight)
-    }
-  }
-
-  var _createRange = createRange$1
-
-  var createRange = _createRange
-
-  /**
-   * Creates an array of numbers (positive and/or negative) progressing from
-   * `start` up to, but not including, `end`. A step of `-1` is used if a negative
-   * `start` is specified without an `end` or `step`. If `end` is not specified,
-   * it's set to `start` with `start` then set to `0`.
-   *
-   * **Note:** JavaScript follows the IEEE-754 standard for resolving
-   * floating-point values which can produce unexpected results.
-   *
-   * @static
-   * @since 0.1.0
-   * @memberOf _
-   * @category Util
-   * @param {number} [start=0] The start of the range.
-   * @param {number} end The end of the range.
-   * @param {number} [step=1] The value to increment or decrement by.
-   * @returns {Array} Returns the range of numbers.
-   * @see _.inRange, _.rangeRight
-   * @example
-   *
-   * _.range(4);
-   * // => [0, 1, 2, 3]
-   *
-   * _.range(-4);
-   * // => [0, -1, -2, -3]
-   *
-   * _.range(1, 5);
-   * // => [1, 2, 3, 4]
-   *
-   * _.range(0, 20, 5);
-   * // => [0, 5, 10, 15]
-   *
-   * _.range(0, -4, -1);
-   * // => [0, -1, -2, -3]
-   *
-   * _.range(1, 4, 0);
-   * // => [1, 1, 1]
-   *
-   * _.range(0);
-   * // => []
-   */
-  var range = createRange()
-
-  var range_1 = range
-
-  /**
-   * @param {RowSegment} seg
-   * @param {number} slot
-   */
-  var isSegmentInSlot$1 = function isSegmentInSlot(seg, slot) {
-    return seg.left <= slot && seg.right >= slot
-  }
-  var eventsInSlot = function eventsInSlot(segments, slot) {
-    return segments
-      .filter(function (seg) {
-        return isSegmentInSlot$1(seg, slot)
-      })
-      .map(function (seg) {
-        return seg.event
-      })
-  }
-
-  /** @extends  {types.EventEndingRow} */
-  var EventEndingRow = /*#__PURE__*/ (function (_React$Component) {
-    function EventEndingRow() {
-      _classCallCheck(this, EventEndingRow)
-      return _callSuper(this, EventEndingRow, arguments)
-    }
-    _inherits(EventEndingRow, _React$Component)
-    return _createClass(EventEndingRow, [
-      {
-        key: 'render',
-        value: function render() {
-          var _this$props = this.props,
-            segments = _this$props.segments,
-            slots = _this$props.slotMetrics.slots
-          var rowSegments = eventLevels(segments).levels[0]
-          var current = 1,
-            lastEnd = 1,
-            row = []
-          while (current <= slots) {
-            var key = '_lvl_' + current
-            // Get the first event that fits into this slot
-            var _ref =
-                rowSegments.filter(function (seg) {
-                  return isSegmentInSlot$1(seg, current)
-                })[0] || {},
-              event = _ref.event,
-              left = _ref.left,
-              right = _ref.right,
-              span = _ref.span //eslint-disable-line
-            if (!event) {
-              current++
-              continue
-            }
-            var gap = Math.max(0, left - lastEnd)
-            if (this.canRenderSlotEvent(left, span)) {
-              var content = EventRowMixin.renderEvent(this.props, event)
-              if (gap) {
-                row.push(EventRowMixin.renderSpan(slots, gap, key + '_gap'))
-              }
-              row.push(EventRowMixin.renderSpan(slots, span, key, content))
-              lastEnd = current = right + 1
-            } else {
-              if (gap) {
-                row.push(EventRowMixin.renderSpan(slots, gap, key + '_gap'))
-              }
-              row.push(
-                EventRowMixin.renderSpan(
-                  slots,
-                  1,
-                  key,
-                  this.renderShowMore(segments, current)
-                )
-              )
-              lastEnd = current = current + 1
-            }
-          }
-          return /*#__PURE__*/ React.createElement(
-            'div',
-            {
-              className: 'rbc-row',
-            },
-            row
-          )
-        },
-      },
-      {
-        key: 'canRenderSlotEvent',
-        value: function canRenderSlotEvent(slot, span) {
-          var segments = this.props.segments
-          return range_1(slot, slot + span).every(function (s) {
-            var count = eventsInSlot(segments, s).length
-            return count === 1
-          })
-        },
-      },
-      {
-        key: 'renderShowMore',
-        value: function renderShowMore(segments, slot) {
-          var _this = this
-          var _this$props2 = this.props,
-            localizer = _this$props2.localizer,
-            slotMetrics = _this$props2.slotMetrics
-          var events = slotMetrics.getEventsForSlot(slot)
-          var remainingEvents = eventsInSlot(segments, slot)
-          var count = remainingEvents.length
-          return count
-            ? /*#__PURE__*/ React.createElement(
-                'button',
-                {
-                  type: 'button',
-                  key: 'sm_' + slot,
-                  className: clsx('rbc-button-link', 'rbc-show-more'),
-                  onClick: function onClick(e) {
-                    return _this.showMore(slot, e)
-                  },
-                },
-                localizer.messages.showMore(count, remainingEvents, events)
-              )
-            : false
-        },
-      },
-      {
-        key: 'showMore',
-        value: function showMore(slot, e) {
-          e.preventDefault()
-          e.stopPropagation()
-          this.props.onShowMore(slot, e.target)
-        },
-      },
-    ])
-  })(React.Component)
-  EventEndingRow.defaultProps = _objectSpread2({}, EventRowMixin.defaultProps)
-
-  var ScrollableWeekWrapper = function ScrollableWeekWrapper(_ref) {
-    var children = _ref.children
-    return /*#__PURE__*/ React.createElement(
-      'div',
-      {
-        className: 'rbc-row-content-scroll-container',
-      },
-      children
-    )
-  }
-
-  var safeIsNaN =
-    Number.isNaN ||
-    function ponyfill(value) {
-      return typeof value === 'number' && value !== value
-    }
-  function isEqual$1(first, second) {
-    if (first === second) {
-      return true
-    }
-    if (safeIsNaN(first) && safeIsNaN(second)) {
-      return true
-    }
-    return false
-  }
-  function areInputsEqual(newInputs, lastInputs) {
-    if (newInputs.length !== lastInputs.length) {
-      return false
-    }
-    for (var i = 0; i < newInputs.length; i++) {
-      if (!isEqual$1(newInputs[i], lastInputs[i])) {
-        return false
-      }
-    }
-    return true
-  }
-
-  function memoizeOne(resultFn, isEqual) {
-    if (isEqual === void 0) {
-      isEqual = areInputsEqual
-    }
-    var cache = null
-    function memoized() {
-      var newArgs = []
-      for (var _i = 0; _i < arguments.length; _i++) {
-        newArgs[_i] = arguments[_i]
-      }
-      if (
-        cache &&
-        cache.lastThis === this &&
-        isEqual(newArgs, cache.lastArgs)
-      ) {
-        return cache.lastResult
-      }
-      var lastResult = resultFn.apply(this, newArgs)
-      cache = {
-        lastResult: lastResult,
-        lastArgs: newArgs,
-        lastThis: this,
-      }
-      return lastResult
-    }
-    memoized.clear = function clear() {
-      cache = null
-    }
-    return memoized
   }
 
   /**

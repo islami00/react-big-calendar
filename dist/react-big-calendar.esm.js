@@ -49,9 +49,9 @@ import qsa from 'dom-helpers/querySelectorAll'
 import contains from 'dom-helpers/contains'
 import closest from 'dom-helpers/closest'
 import listen from 'dom-helpers/listen'
-import findIndex from 'lodash/findIndex'
 import range$1 from 'lodash/range'
 import memoize from 'memoize-one'
+import findIndex from 'lodash/findIndex'
 import sortBy from 'lodash/sortBy'
 import scrollbarSize from 'dom-helpers/scrollbarSize'
 import getWidth from 'dom-helpers/width'
@@ -1832,6 +1832,147 @@ var EventRow = /*#__PURE__*/ (function (_React$Component) {
 })(React.Component)
 EventRow.defaultProps = _objectSpread({}, EventRowMixin.defaultProps)
 
+/**
+ * @param {RowSegment} seg
+ * @param {number} slot
+ */
+var isSegmentInSlot$1 = function isSegmentInSlot(seg, slot) {
+  return seg.left <= slot && seg.right >= slot
+}
+var eventsInSlot = function eventsInSlot(segments, slot) {
+  return segments
+    .filter(function (seg) {
+      return isSegmentInSlot$1(seg, slot)
+    })
+    .map(function (seg) {
+      return seg.event
+    })
+}
+
+/** @extends  {types.EventEndingRow} */
+var EventEndingRow = /*#__PURE__*/ (function (_React$Component) {
+  function EventEndingRow() {
+    _classCallCheck(this, EventEndingRow)
+    return _callSuper(this, EventEndingRow, arguments)
+  }
+  _inherits(EventEndingRow, _React$Component)
+  return _createClass(EventEndingRow, [
+    {
+      key: 'render',
+      value: function render() {
+        var _this$props = this.props,
+          segments = _this$props.segments,
+          slots = _this$props.slotMetrics.slots
+        var rowSegments = segments
+        var current = 1,
+          lastEnd = 1,
+          row = []
+        while (current <= slots) {
+          var key = '_lvl_' + current
+          // Get the first event that fits into this slot
+          var _ref =
+              rowSegments.filter(function (seg) {
+                return isSegmentInSlot$1(seg, current)
+              })[0] || {},
+            event = _ref.event,
+            left = _ref.left,
+            right = _ref.right,
+            span = _ref.span //eslint-disable-line
+          if (!event) {
+            current++
+            continue
+          }
+          var gap = Math.max(0, left - lastEnd)
+          if (this.canRenderSlotEvent(left, span)) {
+            var content = EventRowMixin.renderEvent(this.props, event)
+            if (gap) {
+              row.push(EventRowMixin.renderSpan(slots, gap, key + '_gap'))
+            }
+            row.push(EventRowMixin.renderSpan(slots, span, key, content))
+            lastEnd = current = right + 1
+          } else {
+            if (gap) {
+              row.push(EventRowMixin.renderSpan(slots, gap, key + '_gap'))
+            }
+            row.push(
+              EventRowMixin.renderSpan(
+                slots,
+                1,
+                key,
+                this.renderShowMore(segments, current)
+              )
+            )
+            lastEnd = current = current + 1
+          }
+        }
+        return /*#__PURE__*/ React.createElement(
+          'div',
+          {
+            className: 'rbc-row',
+          },
+          row
+        )
+      },
+    },
+    {
+      key: 'canRenderSlotEvent',
+      value: function canRenderSlotEvent(slot, span) {
+        var segments = this.props.segments
+        return range$1(slot, slot + span).every(function (s) {
+          var count = eventsInSlot(segments, s).length
+          return count === 1
+        })
+      },
+    },
+    {
+      key: 'renderShowMore',
+      value: function renderShowMore(segments, slot) {
+        var _this = this
+        var _this$props2 = this.props,
+          localizer = _this$props2.localizer,
+          slotMetrics = _this$props2.slotMetrics
+        var events = slotMetrics.getEventsForSlot(slot)
+        var remainingEvents = eventsInSlot(segments, slot)
+        var count = remainingEvents.length
+        return count
+          ? /*#__PURE__*/ React.createElement(
+              'button',
+              {
+                type: 'button',
+                key: 'sm_' + slot,
+                className: clsx('rbc-button-link', 'rbc-show-more'),
+                onClick: function onClick(e) {
+                  return _this.showMore(slot, e)
+                },
+              },
+              localizer.messages.showMore(count, remainingEvents, events)
+            )
+          : false
+      },
+    },
+    {
+      key: 'showMore',
+      value: function showMore(slot, e) {
+        e.preventDefault()
+        e.stopPropagation()
+        this.props.onShowMore(slot, e.target)
+      },
+    },
+  ])
+})(React.Component)
+EventEndingRow.defaultProps = _objectSpread({}, EventRowMixin.defaultProps)
+
+var ScrollableWeekWrapper = function ScrollableWeekWrapper(_ref) {
+  var children = _ref.children
+  return /*#__PURE__*/ React.createElement(
+    'div',
+    {
+      className: 'rbc-row-content-scroll-container',
+    },
+    children
+  )
+}
+
 function endOfRange(_ref) {
   var dateRange = _ref.dateRange,
     _ref$unit = _ref.unit,
@@ -1970,147 +2111,6 @@ function sortEvents(eventA, eventB, accessors, localizer) {
     evtA: evtA,
     evtB: evtB,
   })
-}
-
-/**
- * @param {RowSegment} seg
- * @param {number} slot
- */
-var isSegmentInSlot$1 = function isSegmentInSlot(seg, slot) {
-  return seg.left <= slot && seg.right >= slot
-}
-var eventsInSlot = function eventsInSlot(segments, slot) {
-  return segments
-    .filter(function (seg) {
-      return isSegmentInSlot$1(seg, slot)
-    })
-    .map(function (seg) {
-      return seg.event
-    })
-}
-
-/** @extends  {types.EventEndingRow} */
-var EventEndingRow = /*#__PURE__*/ (function (_React$Component) {
-  function EventEndingRow() {
-    _classCallCheck(this, EventEndingRow)
-    return _callSuper(this, EventEndingRow, arguments)
-  }
-  _inherits(EventEndingRow, _React$Component)
-  return _createClass(EventEndingRow, [
-    {
-      key: 'render',
-      value: function render() {
-        var _this$props = this.props,
-          segments = _this$props.segments,
-          slots = _this$props.slotMetrics.slots
-        var rowSegments = eventLevels(segments).levels[0]
-        var current = 1,
-          lastEnd = 1,
-          row = []
-        while (current <= slots) {
-          var key = '_lvl_' + current
-          // Get the first event that fits into this slot
-          var _ref =
-              rowSegments.filter(function (seg) {
-                return isSegmentInSlot$1(seg, current)
-              })[0] || {},
-            event = _ref.event,
-            left = _ref.left,
-            right = _ref.right,
-            span = _ref.span //eslint-disable-line
-          if (!event) {
-            current++
-            continue
-          }
-          var gap = Math.max(0, left - lastEnd)
-          if (this.canRenderSlotEvent(left, span)) {
-            var content = EventRowMixin.renderEvent(this.props, event)
-            if (gap) {
-              row.push(EventRowMixin.renderSpan(slots, gap, key + '_gap'))
-            }
-            row.push(EventRowMixin.renderSpan(slots, span, key, content))
-            lastEnd = current = right + 1
-          } else {
-            if (gap) {
-              row.push(EventRowMixin.renderSpan(slots, gap, key + '_gap'))
-            }
-            row.push(
-              EventRowMixin.renderSpan(
-                slots,
-                1,
-                key,
-                this.renderShowMore(segments, current)
-              )
-            )
-            lastEnd = current = current + 1
-          }
-        }
-        return /*#__PURE__*/ React.createElement(
-          'div',
-          {
-            className: 'rbc-row',
-          },
-          row
-        )
-      },
-    },
-    {
-      key: 'canRenderSlotEvent',
-      value: function canRenderSlotEvent(slot, span) {
-        var segments = this.props.segments
-        return range$1(slot, slot + span).every(function (s) {
-          var count = eventsInSlot(segments, s).length
-          return count === 1
-        })
-      },
-    },
-    {
-      key: 'renderShowMore',
-      value: function renderShowMore(segments, slot) {
-        var _this = this
-        var _this$props2 = this.props,
-          localizer = _this$props2.localizer,
-          slotMetrics = _this$props2.slotMetrics
-        var events = slotMetrics.getEventsForSlot(slot)
-        var remainingEvents = eventsInSlot(segments, slot)
-        var count = remainingEvents.length
-        return count
-          ? /*#__PURE__*/ React.createElement(
-              'button',
-              {
-                type: 'button',
-                key: 'sm_' + slot,
-                className: clsx('rbc-button-link', 'rbc-show-more'),
-                onClick: function onClick(e) {
-                  return _this.showMore(slot, e)
-                },
-              },
-              localizer.messages.showMore(count, remainingEvents, events)
-            )
-          : false
-      },
-    },
-    {
-      key: 'showMore',
-      value: function showMore(slot, e) {
-        e.preventDefault()
-        e.stopPropagation()
-        this.props.onShowMore(slot, e.target)
-      },
-    },
-  ])
-})(React.Component)
-EventEndingRow.defaultProps = _objectSpread({}, EventRowMixin.defaultProps)
-
-var ScrollableWeekWrapper = function ScrollableWeekWrapper(_ref) {
-  var children = _ref.children
-  return /*#__PURE__*/ React.createElement(
-    'div',
-    {
-      className: 'rbc-row-content-scroll-container',
-    },
-    children
-  )
 }
 
 /**
@@ -2499,16 +2499,6 @@ var DateHeader = function DateHeader(_ref) {
     label
   )
 }
-DateHeader.propTypes =
-  process.env.NODE_ENV !== 'production'
-    ? {
-        label: PropTypes.node,
-        date: PropTypes.instanceOf(Date),
-        drilldownView: PropTypes.string,
-        onDrillDown: PropTypes.func,
-        isOffRange: PropTypes.bool,
-      }
-    : {}
 
 var _excluded$6 = ['date', 'className']
 var eventsForWeek = function eventsForWeek(
