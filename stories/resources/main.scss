@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 /**
  * As seen in ./.storybook/main.js, this file is used to provide
  * the Big Calendar styles in Storybook
@@ -59,6 +61,6 @@
 
 .nonDraggable,
 .nonResizable {
-  background-color: lighten(#3174ad, 40) !important;
+  background-color: color.adjust(#3174ad, $lightness: 40) !important;
   color: black !important;
 }
