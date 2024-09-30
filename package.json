@@ -18,6 +18,13 @@
   "main": "lib/index.js",
   "module": "dist/react-big-calendar.esm.js",
   "style": "lib/css/react-big-calendar.css",
+  "files": [
+    "lib/",
+    "dist/",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
   "keywords": [
     "scheduler",
     "react-component",
