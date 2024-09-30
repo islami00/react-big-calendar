@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import clsx from 'clsx'
 import EventRowMixin from './EventRowMixin'
-import { eventLevels } from './utils/eventLevels'
+
 import range from 'lodash/range'
 
 /**
@@ -23,7 +23,7 @@ class EventEndingRow extends React.Component {
       slotMetrics: { slots },
     } = this.props
 
-    let rowSegments = eventLevels(segments).levels[0]
+    let rowSegments = segments
 
     let current = 1,
       lastEnd = 1,
