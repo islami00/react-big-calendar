@@ -1,5 +1,7 @@
-$out-of-range-color: lighten(#333, 40%) !default;
-$out-of-range-bg-color: lighten(#333, 70%) !default;
+@use 'sass:color';
+
+$out-of-range-color: color.adjust(#333, $lightness: 40%) !default;
+$out-of-range-bg-color: color.adjust(#333, $lightness: 70%) !default;
 
 $calendar-border: #ddd !default;
 $cell-border: #ddd !default;
