@@ -3395,6 +3395,11 @@
   dependencies:
     "@babel/types" "^7.20.7"
 
+"@types/date-arithmetic@*":
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/@types/date-arithmetic/-/date-arithmetic-4.1.4.tgz#bdb441f61a916f11af1874a8c2cf787f77ffcb94"
+  integrity sha512-p9eZ2X9B80iKiTW4ukVj8B4K6q9/+xFtQ5MGYA5HWToY9nL4EkhV9+6ftT2VHpVMEZb5Tv00Iel516bVdO+yRw==
+
 "@types/eslint-scope@^3.7.3":
   version "3.7.7"
   resolved "https://registry.yarnpkg.com/@types/eslint-scope/-/eslint-scope-3.7.7.tgz#3108bd5f18b0cdb277c867b3dd449c9ed7079ac5"
@@ -3614,6 +3619,23 @@
   version "6.9.15"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.15.tgz#adde8a060ec9c305a82de1babc1056e73bd64dce"
   integrity sha512-uXHQKES6DQKKCLh441Xv/dwxOq1TVS3JPUMlEqoEglvlhR6Mxnlew/Xq/LRVHpLyk7iK3zODe1qYHIMltO7XGg==
+
+"@types/react-big-calendar@^1.8.12":
+  version "1.8.12"
+  resolved "https://registry.yarnpkg.com/@types/react-big-calendar/-/react-big-calendar-1.8.12.tgz#a5afb0d11d3cd2d5f99c62de4a2425b3d0357a4e"
+  integrity sha512-dN9kPm2cLgPKDVc8q7RdXMehZxQea+LlcWPB8sU3ES7S3WF/ff8e87NfhJREfzHWEeEJBx2TqRKQRkdHA9vNFw==
+  dependencies:
+    "@types/date-arithmetic" "*"
+    "@types/prop-types" "*"
+    "@types/react" "*"
+
+"@types/react@*":
+  version "18.3.7"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.7.tgz#6decbfbb01f8d82d56ff5403394121940faa6569"
+  integrity sha512-KUnDCJF5+AiZd8owLIeVHqmW9yM4sqmDVf2JRJiBMFkGvkoZ4/WyV2lL4zVsoinmRS/W3FeEdZLEWFRofnT2FQ==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^3.0.2"
 
 "@types/react@>=16.9.11":
   version "18.3.3"

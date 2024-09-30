@@ -17,6 +17,7 @@ import { notify } from './utils/helpers'
 import Resources from './utils/Resources'
 import { DayLayoutAlgorithmPropType } from './utils/propTypes'
 
+/** @extends {React.Component<import("react-big-calendar").TimeGridProps>} */
 export default class TimeGrid extends Component {
   constructor(props) {
     super(props)

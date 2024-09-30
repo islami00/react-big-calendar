@@ -1,3 +1,5 @@
+/** @import * as types from './EventEndingRow.types*/
+/** @import {RowSegment} from './utils/eventLevels.types' */
 import PropTypes from 'prop-types'
 import React from 'react'
 import clsx from 'clsx'
@@ -5,21 +7,23 @@ import EventRowMixin from './EventRowMixin'
 
 import range from 'lodash/range'
 
+/**
+ * @param {RowSegment} seg
+ * @param {number} slot
+ */
 let isSegmentInSlot = (seg, slot) => seg.left <= slot && seg.right >= slot
 let eventsInSlot = (segments, slot) =>
   segments.filter((seg) => isSegmentInSlot(seg, slot)).map((seg) => seg.event)
 
-// Here because I'm not sure of the browser support
-let flatten = (arr) => {
-  return arr.reduce((curr, each) => curr.concat(each), [])
-}
+/** @extends  {types.EventEndingRow} */
 class EventEndingRow extends React.Component {
   render() {
     let {
       segments,
       slotMetrics: { slots },
     } = this.props
-    let rowSegments = flatten(segments)
+
+    let rowSegments = segments
 
     let current = 1,
       lastEnd = 1,
@@ -27,10 +31,9 @@ class EventEndingRow extends React.Component {
 
     while (current <= slots) {
       let key = '_lvl_' + current
-
+      // Get the first event that fits into this slot
       let { event, left, right, span } =
         rowSegments.filter((seg) => isSegmentInSlot(seg, current))[0] || {} //eslint-disable-line
-
       if (!event) {
         current++
         continue

@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import React from 'react'
 import EventRowMixin from './EventRowMixin'
 
+/** @extends {React.Component<import("./EventRow.types").EventRowProps>} */
 class EventRow extends React.Component {
   render() {
     let {

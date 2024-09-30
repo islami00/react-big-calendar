@@ -1,11 +1,15 @@
+/** @import * as types from './Resources.types*/
 export const NONE = {}
 
+/**
+ * @type {types.ResourcesFn}
+ */
 export default function Resources(resources, accessors) {
   return {
     map(fn) {
-      if (!resources) return [fn([NONE, null], 0)]
-      return resources.map((resource, idx) =>
-        fn([accessors.resourceId(resource), resource], idx)
+      if (!resources) return [fn([NONE, null], 0, 1)]
+      return resources.map((resource, idx, array) =>
+        fn([accessors.resourceId(resource), resource], idx, array.length)
       )
     },
 

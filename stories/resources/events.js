@@ -1,5 +1,5 @@
 const now = new Date()
-
+/** @type {import("../../src/utils/common").RBCEvent[]} */
 export default [
   /* {
     id: 0,
@@ -209,4 +209,35 @@ export default [
     start: new Date(2023, 2, 26, 0, 0, 0),
     end: new Date(2023, 2, 26, 4, 30, 0),
   },
+
+  // --
+  // DST BUG (renders differently in GMT+1 vs GMT+5)
+  // Assuming DST ends 2am Nov 2024
+  // The second date will be physically rendered a day later.
+  // Unfortunately, the time diff between the dates is the same in both GMT+1 and a DST, so we're not accounting for dst.
+  // We assume all the events will be evenly spaced, but that's not the case here.
+  // The base was 2024-11-03T04:00:00.000Z, in GMT-4
+
+  {
+    allDay: false,
+    // 90mins were added here
+    start: new Date('2024-11-03T05:30:00.000Z'),
+    // 105mins were added here, both correct
+    end: new Date('2024-11-03T05:45:00.000Z'),
+
+    title: 'Event A',
+  },
+  // At this point, we're in GMT-5, so our actual result has one hour omitted (DST is over)
+  {
+    allDay: false,
+    // 165mins added here
+    start: new Date('2024-11-03T06:45:00.000Z'),
+    // 180mins were added here
+    end: new Date('2024-11-03T07:00:00.000Z'),
+
+    title: 'DST Ended here in Washington',
+  },
+  // What do we do?
+  // What if we don't switch tz?
+  // --
 ]

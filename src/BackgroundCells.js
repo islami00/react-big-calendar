@@ -1,3 +1,4 @@
+/** @import  * as types from "./BackgroundCells.types" */
 import React, { createRef } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
@@ -6,13 +7,25 @@ import { notify } from './utils/helpers'
 import { dateCellSelection, getSlotAtX, pointInBox } from './utils/selection'
 import Selection, { getBoundsForNode, isEvent, isShowMore } from './Selection'
 
+/**
+ * @extends {types.BackgroundCells}
+ * */
 class BackgroundCells extends React.Component {
+  /**
+   * @param {types.BackgroundCellsProps} props
+   * @param {*} context
+   */
   constructor(props, context) {
     super(props, context)
 
+    /**
+     * @type {types.BackgroundCellsState}
+     */
     this.state = {
       selecting: false,
     }
+
+    /** @type {React.RefObject<any>}  */
     this.containerRef = createRef()
   }
 
