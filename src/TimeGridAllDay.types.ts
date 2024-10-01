@@ -88,10 +88,12 @@ export interface TimeGridAllDayProps<
   components: CalendarComponentsWithDefaults<TEvent, TResource>
 }
 
-export declare class TimeGridAllDay<
+declare class TimeGridAllDay<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
 > extends React.Component<
   TimeGridAllDayProps<TEvent, TResource>,
   TimeGridAllDayState
 > {}
+
+export default TimeGridAllDay

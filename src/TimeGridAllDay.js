@@ -1,4 +1,4 @@
-/** @import * as types from './TimeGridAllDay.types*/
+/** @import TimeGridAllDayClass,  {TimeGridAllDayState} from './TimeGridAllDay.types*/
 /** @import {OnSelectSlotArgs} from './BackgroundCells.types*/
 /** @import {ResourcesFnGroupedEvents, ResourcesFnTuple} from './utils/Resources.types*/
 import React, { Component, createRef } from 'react'
@@ -22,13 +22,14 @@ import DateContentRow from './DateContentRow'
 import TimeGutterAllDay from './TimeGutterAllDay'
 
 /**
- * @extends {types.TimeGridAllDay}
+ * @extends {TimeGridAllDayClass}
+ * @type {typeof TimeGridAllDayClass}
  * */
 export default class TimeGridAllDay extends Component {
   constructor(props) {
     super(props)
 
-    /** @type {types.TimeGridAllDayState} */
+    /** @type {TimeGridAllDayState} */
     this.state = {
       gutterWidth: undefined,
       isOverflowing: null,
