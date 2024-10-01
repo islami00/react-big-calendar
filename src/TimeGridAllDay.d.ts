@@ -1,7 +1,5 @@
-import type {
-  TimeGridAllDay,
-  TimeGridAllDayProps,
-} from './TimeGridAllDay.types'
+import TimeGridAllDay from './TimeGridAllDay.types'
+import type { TimeGridAllDayProps } from './TimeGridAllDay.types'
 
 declare module 'react-big-calendar/lib/TimeGridAllDay' {
   export type { TimeGridAllDayProps }

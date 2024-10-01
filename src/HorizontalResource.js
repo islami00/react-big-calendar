@@ -1,4 +1,4 @@
-/** @import * as types from "./HorizontalResource.types" */
+/** @import HorizontalResourceFn, {HorizontalResourceProps} from "./HorizontalResource.types" */
 import React from 'react'
 
 import { navigate } from './utils/constants'
@@ -8,8 +8,8 @@ import TimeGridAllDay from './TimeGridAllDay'
 /**
  * @template {NonNullable<unknown>} TEvent
  * @template {NonNullable<unknown>} TResource
- * @param {types.HorizontalResourceProps<TEvent, TResource>} props
- * @type {types.HorizontalResource<TEvent, TResource>}
+ * @param {HorizontalResourceProps<TEvent, TResource>} props
+ * @type {HorizontalResourceFn<TEvent, TResource>}
  */
 function HorizontalResource(props) {
   let {
