@@ -51014,6 +51014,10 @@
     'scrollToTime',
     'enableAutoScroll',
   ]
+  /**
+   * @extends {types.Week}
+   * @type {typeof types.Week}
+   */
   var Week = /*#__PURE__*/ (function (_React$Component) {
     function Week() {
       _classCallCheck(this, Week)
