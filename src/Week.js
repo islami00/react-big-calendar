@@ -1,3 +1,4 @@
+/** @import * as types from "./Week.types" */
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -5,7 +6,10 @@ import { navigate } from './utils/constants'
 import { DayLayoutAlgorithmPropType } from './utils/propTypes'
 
 import TimeGrid from './TimeGrid'
-
+/**
+ * @extends {types.Week}
+ * @type {typeof types.Week}
+ */
 class Week extends React.Component {
   render() {
     /**

@@ -50,4 +50,4 @@ export declare class BackgroundCells extends React.Component<
   BackgroundCellsProps,
   BackgroundCellsState
 > {}
-export type SelectableOptions = true | false | 'ignoreEvents'
+export type SelectableOptions = boolean | 'ignoreEvents'

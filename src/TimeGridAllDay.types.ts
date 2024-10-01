@@ -1,7 +1,15 @@
 import type * as React from 'react'
 import type { TimeGridProps } from 'react-big-calendar'
-import type { RBCEvent, RBCResource } from './misc.types'
+import type {
+  DaylayoutAlgorithmOptions,
+  HandleViewNavigateFn,
+  PopupOffsetOptions,
+  PropTypeFunc,
+  RBCEvent,
+  RBCResource,
+} from './misc.types'
 import type { CalendarComponentsWithDefaults } from './Calendar.types'
+import type { DateLocalizer } from './localizer.types'
 
 export interface TimeGridAllDayState {
   gutterWidth: number | undefined
@@ -18,12 +26,68 @@ export interface TimeGridAllDayState {
   } | null
   isOverflowing: boolean | null
 }
-interface TimeGridAllDayProps<
+
+type CommonProps<
+  TEvent extends object = RBCEvent,
+  TResource extends object = RBCResource[]
+> = Pick<
+  TimeGridProps<TEvent, TResource>,
+  | 'accessors'
+  | 'resources'
+  | 'min'
+  | 'max'
+  | 'getNow'
+  | 'scrollToTime'
+  | 'showMultiDayTimes'
+  | 'rtl'
+  | 'width'
+  | 'selected'
+  | 'selectable'
+  | 'longPressThreshold'
+  | 'onSelectSlot'
+  | 'onSelectEnd'
+  | 'onSelectStart'
+  | 'onSelectEvent'
+  | 'onDoubleClickEvent'
+  | 'onKeyPressEvent'
+  | 'onDrillDown'
+>
+export interface TimeGridAllDayProps<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
-> extends TimeGridProps<TEvent, TResource> {
+> extends CommonProps<TEvent, TResource> {
+  events: TEvent[]
+  backgroundEvents: TEvent[]
+  resources?: TResource[]
+
+  range?: Date[]
+
+  enableAutoScroll?: boolean
+
+  resizable?: boolean
+
+  accessors: object
+  getters: object
+  localizer: DateLocalizer
+
+  allDayMaxRows?: number
+
+  onNavigate?: HandleViewNavigateFn
+  onShowMore?: PropTypeFunc
+  getDrilldownView: TimeGridProps<TEvent, TResource>['getDrilldownView']
+
+  dayLayoutAlgorithm?: DaylayoutAlgorithmOptions
+  showAllEvents?: boolean
+  doShowMoreDrillDown?: boolean
+
+  popup?: boolean
+  handleDragStart?: PropTypeFunc
+
+  popupOffset?: PopupOffsetOptions
+
   components: CalendarComponentsWithDefaults<TEvent, TResource>
 }
+
 export declare class TimeGridAllDay<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource

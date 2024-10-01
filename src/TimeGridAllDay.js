@@ -438,8 +438,6 @@ TimeGridAllDay.propTypes = {
   backgroundEvents: PropTypes.array.isRequired,
   resources: PropTypes.array,
 
-  step: PropTypes.number,
-  timeslots: PropTypes.number,
   range: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   min: PropTypes.instanceOf(Date).isRequired,
   max: PropTypes.instanceOf(Date).isRequired,
@@ -490,9 +488,4 @@ TimeGridAllDay.propTypes = {
       y: PropTypes.number,
     }),
   ]),
-}
-
-TimeGridAllDay.defaultProps = {
-  step: 30,
-  timeslots: 2,
 }
