@@ -6,19 +6,20 @@ import type {
   WeekTitleFn,
 } from './Week.types'
 
-export interface HorizontalResourceProps<
+export type HorizontalResourceProps<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
-> extends RBCWeekProps<TEvent, TResource> {}
+> = RBCWeekProps<TEvent, TResource>
 
-export interface HorizontalResourceViewStatic {
-  range: WeekRangeFn
-  navigate: WeekNavigateFn
-  title: WeekTitleFn
+declare function HorizontalResource<
+  TEvent extends object = RBCEvent,
+  TResource extends object = RBCResource
+>(props: HorizontalResourceProps<TEvent, TResource>): React.ReactElement
+
+declare namespace HorizontalResource {
+  const range: WeekRangeFn
+  const navigate: WeekNavigateFn
+  const title: WeekTitleFn
 }
 
-export type HorizontalResource<
-  TEvent extends object = RBCEvent,
-  TResource extends object = RBCResource
-> = ((props: HorizontalResourceProps<TEvent, TResource>) => React.ReactNode) &
-  HorizontalResourceViewStatic
+export default HorizontalResource

@@ -1,5 +1,5 @@
+import Week from './Week.types'
 import type {
-  Week,
   RBCWeekProps,
   WeekNavigateFn,
   WeekRangeFn,

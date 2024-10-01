@@ -51015,8 +51015,10 @@
     'enableAutoScroll',
   ]
   /**
-   * @extends {types.Week}
-   * @type {typeof types.Week}
+   * @template {NonNullable<unknown>} [TEvent=misc.RBCEvent]
+   * @template {NonNullable<unknown>} [TResource=misc.RBCResource]
+   * @extends {WeekClass<TEvent, TResource>}
+   * @type {typeof WeekClass<TEvent, TResource>}
    */
   var Week = /*#__PURE__*/ (function (_React$Component) {
     function Week() {

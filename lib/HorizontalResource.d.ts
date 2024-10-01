@@ -1,10 +1,7 @@
-import type {
-  HorizontalResource,
-  HorizontalResourceProps,
-  HorizontalResourceViewStatic,
-} from './HorizontalResource.types'
+import HorizontalResource from './HorizontalResource.types'
+import type { HorizontalResourceProps } from './HorizontalResource.types'
 
 declare module 'react-big-calendar/lib/HorizontalResource' {
-  export type { HorizontalResourceProps, HorizontalResourceViewStatic }
+  export type { HorizontalResourceProps }
   export default HorizontalResource
 }

@@ -2480,12 +2480,6 @@ var Header = function Header(_ref) {
     label
   )
 }
-Header.propTypes =
-  process.env.NODE_ENV !== 'production'
-    ? {
-        label: PropTypes.node,
-      }
-    : {}
 
 var DateHeader = function DateHeader(_ref) {
   var label = _ref.label,
@@ -5140,8 +5134,10 @@ var _excluded$3 = [
   'enableAutoScroll',
 ]
 /**
- * @extends {types.Week}
- * @type {typeof types.Week}
+ * @template {NonNullable<unknown>} [TEvent=misc.RBCEvent]
+ * @template {NonNullable<unknown>} [TResource=misc.RBCResource]
+ * @extends {WeekClass<TEvent, TResource>}
+ * @type {typeof WeekClass<TEvent, TResource>}
  */
 var Week = /*#__PURE__*/ (function (_React$Component) {
   function Week() {

@@ -8,7 +8,6 @@ import type { DateLocalizer } from './localizer.types'
 import type {
   DaylayoutAlgorithmOptions,
   HandleViewNavigateFn,
-  PopupOffsetObject,
   PopupOffsetOptions,
   PropTypeFunc,
   RBCEvent,
@@ -103,7 +102,7 @@ export type WeekTitleFn = <
   props: RBCWeekProps<TEvent, TResource>
 ) => void
 
-export declare class Week<
+declare class Week<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
 > extends React.Component<RBCWeekProps<TEvent, TResource>> {
@@ -113,3 +112,5 @@ export declare class Week<
 
   static title: WeekTitleFn
 }
+
+export default Week
