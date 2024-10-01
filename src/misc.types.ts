@@ -1,4 +1,8 @@
-import type { NavigateAction } from 'react-big-calendar'
+import type {
+  DayLayoutAlgorithm,
+  DayLayoutFunction,
+  NavigateAction,
+} from 'react-big-calendar'
 import type { DateLocalizer } from './localizer.types'
 import type * as React from 'react'
 export type PropTypeFunc = (...args: any[]) => void
@@ -43,3 +47,13 @@ export interface ForwardRefFunction {
     render: (props: P, ref: React.ForwardedRef<T>) => React.ReactElement | null
   ): (props: P & React.RefAttributes<T>) => React.ReactElement | null
 }
+
+export type HandleViewNavigateFn = (value: NavigateAction, date?: Date) => void
+
+export type DaylayoutAlgorithmOptions = DayLayoutAlgorithm | DayLayoutFunction
+
+export interface PopupOffsetObject {
+  x: number
+  y: number
+}
+export type PopupOffsetOptions = number | PopupOffsetObject
