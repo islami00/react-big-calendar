@@ -14,11 +14,12 @@ import type {
   RBCResource,
 } from './misc.types'
 import type * as React from 'react'
+import type { CalendarViewComponentProps } from './components.types'
 
 export interface RBCWeekProps<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource[]
-> {
+> extends CalendarViewComponentProps {
   date: Date
 
   events: TEvent[]
@@ -59,8 +60,6 @@ export interface RBCWeekProps<
   onDoubleClickEvent?: PropTypeFunc
   onKeyPressEvent?: PropTypeFunc
   onShowMore?: PropTypeFunc
-  onDrillDown?: PropTypeFunc
-  getDrilldownView: PropTypeFunc
 
   dayLayoutAlgorithm?: DaylayoutAlgorithmOptions
   showAllEvents?: boolean
@@ -92,7 +91,7 @@ export type WeekRangeFn = <
 >(
   date: Date,
   props: WeekRangeFnProps<TEvent, TResource>
-) => void
+) => Date[]
 
 export type WeekTitleFn = <
   TEvent extends object = RBCEvent,
@@ -100,7 +99,7 @@ export type WeekTitleFn = <
 >(
   date: Date,
   props: RBCWeekProps<TEvent, TResource>
-) => void
+) => string
 
 declare class Week<
   TEvent extends object = RBCEvent,

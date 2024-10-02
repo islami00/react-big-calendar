@@ -1,8 +1,15 @@
+/** @import ToolbarClass, {RBCToolbarProps} from "./Toolbar.types" */
+/** @import * as rbc from "react-big-calendar" */
+/** @import {ViewRegisteryKey} from "./components.types" */
 import PropTypes from 'prop-types'
 import React from 'react'
 import clsx from 'clsx'
 import { navigate } from './utils/constants'
 
+/**
+ * @extends {ToolbarClass}
+ * @type  {typeof ToolbarClass}
+ * */
 class Toolbar extends React.Component {
   render() {
     let {
@@ -39,15 +46,17 @@ class Toolbar extends React.Component {
       </div>
     )
   }
-
+  /** @param {rbc.NavigateAction} action */
   navigate = (action) => {
     this.props.onNavigate(action)
   }
 
+  /** @param {ViewRegisteryKey} action */
   view = (view) => {
     this.props.onView(view)
   }
 
+  /** @param {rbc.Messages} action */
   viewNamesGroup(messages) {
     let viewNames = this.props.views
     const view = this.props.view
