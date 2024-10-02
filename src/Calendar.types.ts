@@ -1,47 +1,13 @@
 import type * as React from 'react'
 import type * as rbc from 'react-big-calendar'
-import type { RBCEvent, RBCResource, WithRequired } from './misc.types'
 import type {
-  CalendarViewComponentProps,
+  CalendarComponents,
   DefaultViews,
-  TimeSlotWrapperProps,
   ViewComponent,
   ViewRegistery,
   ViewRegisteryKey,
 } from './components.types'
-import type { TimeGutterAllDaySlotProps } from './TimeGutterAllDaySlot.types'
-
-type SharedCalendarComponents<
-  TEvent extends object,
-  TResource extends object
-> = Omit<rbc.Components<TEvent, TResource>, 'timeSlotWrapper'>
-export interface CalendarComponents<
-  TEvent extends object = RBCEvent,
-  TResource extends object = RBCResource
-> extends SharedCalendarComponents<TEvent, TResource> {
-  timeSlotWrapper?:
-    | React.ComponentType<TimeSlotWrapperProps<TResource>>
-    | undefined
-  timeGutterAllDaySlot?: React.ComponentType<
-    TimeGutterAllDaySlotProps<TResource>
-  >
-  backgroundEventWrapper?: React.ComponentType
-  weekWrapper?: React.ComponentType
-}
-
-export type CalendarComponentsWithDefaults<
-  TEvent extends object = RBCEvent,
-  TResource extends object = RBCResource
-> = WithRequired<
-  CalendarComponents<TEvent, TResource>,
-  | 'eventWrapper'
-  | 'backgroundEventWrapper'
-  | 'eventContainerWrapper'
-  | 'dateCellWrapper'
-  | 'weekWrapper'
-  | 'timeSlotWrapper'
-  | 'timeGutterWrapper'
->
+import type { RBCEvent, RBCResource } from './misc.types'
 
 type SharedCalendarProps<
   TEvent extends object = RBCEvent,
@@ -63,7 +29,6 @@ export interface RBCCalendarProps<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
 > extends SharedCalendarProps<TEvent, TResource>,
-    CalendarViewComponentProps,
     React.RefAttributes<Calendar<TEvent, TResource>> {
   components?: CalendarComponents<TEvent, TResource> | undefined
   views?: Partial<ViewRegistery> | (keyof DefaultViews)[]
@@ -78,6 +43,22 @@ export interface RBCCalendarProps<
     | undefined
   onView?: ((view: ViewRegisteryKey) => void) | undefined
   drilldownView?: ViewRegisteryKey | null | undefined
+  onDrillDown?:
+    | ((
+        date: Date,
+        view: ViewRegisteryKey,
+        // Not sure where this is defined
+        drilldownView?: ViewRegisteryKey
+      ) => void)
+    | undefined
+  getDrilldownView?:
+    | ((
+        targetDate: Date,
+        currentViewName: ViewRegisteryKey,
+        configuredViewNames: ViewRegisteryKey[]
+      ) => void)
+    | null
+    | undefined
   defaultView?: ViewRegisteryKey | undefined
 }
 
@@ -87,6 +68,6 @@ declare class Calendar<
 > extends React.Component<RBCCalendarProps<TEvent, TResource>> {
   getViews: () => Record<string, ViewComponent>
   getView: () => ViewComponent
-  getDrilldownView: (date: Date) => rbc.View | null
+  getDrilldownView: (date: Date) => ViewRegisteryKey | null
 }
 export default Calendar

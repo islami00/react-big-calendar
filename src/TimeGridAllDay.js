@@ -1,17 +1,19 @@
-/** @import TimeGridAllDayClass,  {TimeGridAllDayState} from './TimeGridAllDay.types*/
-/** @import {OnSelectSlotArgs} from './BackgroundCells.types*/
-/** @import {ResourcesFnGroupedEvents, ResourcesFnTuple} from './utils/Resources.types*/
-import React, { Component, createRef } from 'react'
+/**
+ * @import TimeGridAllDayClass,  {TimeGridAllDayProps, TimeGridAllDayState} from './TimeGridAllDay.types'
+ * @import {OnSelectSlotArgs} from './BackgroundCells.types'
+ * @import {ResourcesFn, ResourcesFnGroupedEvents, ResourcesFnTuple} from './utils/Resources.types'
+ * @import {RBCEvent, RBCResource} from './misc.types'
+ */
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import * as animationFrame from 'dom-helpers/animationFrame'
 import memoize from 'memoize-one'
 
 // import TimeGutter from './TimeGutter'
-import TimeGridHeader from './TimeGridHeaderAllDay'
+import TimeGridHeaderAllDay from './TimeGridHeaderAllDay.js'
 import PopOverlay from './PopOverlay'
 
-import getWidth from 'dom-helpers/width'
 import getPosition from 'dom-helpers/position'
 import { views } from './utils/constants'
 import { inRange, sortEvents } from './utils/eventLevels'
@@ -22,16 +24,21 @@ import DateContentRow from './DateContentRow'
 import TimeGutterAllDay from './TimeGutterAllDay'
 
 /**
- * @extends {TimeGridAllDayClass}
+ * @template {NonNullable<unknown>} [TEvent=RBCEvent]
+ * @template  {NonNullable<unknown>} [TResource=RBCResource]
+ * @extends {Component<TimeGridAllDayProps<TEvent, TResource>, TimeGridAllDayState>}
  * @type {typeof TimeGridAllDayClass}
  * */
 export default class TimeGridAllDay extends Component {
+  /**
+   *
+   * @param {TimeGridAllDayProps<TEvent, TResource>} props
+   */
   constructor(props) {
     super(props)
 
     /** @type {TimeGridAllDayState} */
     this.state = {
-      gutterWidth: undefined,
       isOverflowing: null,
     }
 
@@ -39,7 +46,6 @@ export default class TimeGridAllDay extends Component {
     this.contentRef = React.createRef()
     this.containerRef = React.createRef()
     this._scrollRatio = null
-    this.gutterRef = createRef()
   }
 
   getSnapshotBeforeUpdate() {
@@ -48,16 +54,15 @@ export default class TimeGridAllDay extends Component {
   }
 
   componentDidMount() {
-    if (this.props.width == null) {
-      this.measureGutter()
-    }
-
     this.calculateScroll()
     this.applyScroll()
 
     window.addEventListener('resize', this.handleResize)
   }
-
+  /**
+   *
+   * @param {React.UIEvent<HTMLDivElement>} e
+   */
   handleScroll = (e) => {
     if (this.scrollRef.current) {
       this.scrollRef.current.scrollLeft = e.target.scrollLeft
@@ -73,10 +78,6 @@ export default class TimeGridAllDay extends Component {
     window.removeEventListener('resize', this.handleResize)
 
     animationFrame.cancel(this.rafHandle)
-
-    if (this.measureGutterAnimationFrameRequest) {
-      window.cancelAnimationFrame(this.measureGutterAnimationFrameRequest)
-    }
   }
 
   componentDidUpdate() {
@@ -147,8 +148,8 @@ export default class TimeGridAllDay extends Component {
     })
   }
   /**
-   * @param {ResourcesFnGroupedEvents} groupedEvents
-   * @param {ResourcesFnTuple} resourceTuple
+   * @param {ResourcesFnGroupedEvents<TEvent>} groupedEvents
+   * @param {ResourcesFnTuple<TResource>} resourceTuple
    * @param {number} idx
    * @param {number} arrayLen
    */
@@ -175,7 +176,8 @@ export default class TimeGridAllDay extends Component {
     return (
       <DateContentRow
         getNow={getNow}
-        key={resourceId.toString()}
+        key={`${resourceId}`}
+        container={this.getContainer}
         rtl={rtl}
         minRows={1}
         // Expect styles to only have two rows, otherwise use a similar method as Month to change it
@@ -209,8 +211,6 @@ export default class TimeGridAllDay extends Component {
       events,
       backgroundEvents,
       range,
-      width,
-      selected,
       rtl,
       getNow,
       resources,
@@ -219,19 +219,23 @@ export default class TimeGridAllDay extends Component {
       getters,
       localizer,
       showMultiDayTimes,
-      longPressThreshold,
-      resizable,
     } = this.props
-
-    width = width || this.state.gutterWidth
 
     let start = range[0],
       end = range[range.length - 1]
 
     this.slots = range.length
-
+    /**
+     * @type {TEvent[]} allDayEvents
+     * */
     let allDayEvents = [],
+      /**
+       * @type {TEvent[]} allDayEvents
+       * */
       rangeEvents = [],
+      /**
+       * @type {TEvent[]} allDayEvents
+       * */
       rangeBackgroundEvents = []
 
     events.forEach((event) => {
@@ -267,35 +271,16 @@ export default class TimeGridAllDay extends Component {
         className={clsx('brbc-time-view-all-day-inline')}
         ref={this.containerRef}
       >
-        <TimeGridHeader
+        <TimeGridHeaderAllDay
           range={range}
-          events={allDayEvents}
-          width={width}
           rtl={rtl}
           getNow={getNow}
-          localizer={localizer}
-          selected={selected}
-          allDayMaxRows={
-            this.props.showAllEvents
-              ? Infinity
-              : this.props.allDayMaxRows ?? Infinity
-          }
-          resources={memoizedResourcesResult}
-          selectable={this.props.selectable}
-          accessors={accessors}
-          getters={getters}
-          components={components}
-          scrollRef={this.scrollRef}
           isOverflowing={this.state.isOverflowing}
-          longPressThreshold={longPressThreshold}
-          onSelectSlot={this.handleSelectAllDaySlot}
-          onSelectEvent={this.handleSelectEvent}
-          onShowMore={this.handleShowMore}
-          onDoubleClickEvent={this.props.onDoubleClickEvent}
-          onKeyPressEvent={this.props.onKeyPressEvent}
+          localizer={localizer}
+          components={components}
+          getters={getters}
           onDrillDown={this.props.onDrillDown}
           getDrilldownView={this.props.getDrilldownView}
-          resizable={resizable}
         />
         {this.props.popup && this.renderOverlay()}
         <div
@@ -304,11 +289,7 @@ export default class TimeGridAllDay extends Component {
           onScroll={this.handleScroll}
         >
           <TimeGutterAllDay
-            ref={this.gutterRef}
-            localizer={localizer}
-            getNow={this.props.getNow}
             components={components}
-            getters={getters}
             resources={memoizedResourcesResult}
             accessors={this.props.accessors}
           />
@@ -328,7 +309,6 @@ export default class TimeGridAllDay extends Component {
   }
 
   renderOverlay() {
-    let overlay = this.state?.overlay ?? {}
     let {
       accessors,
       localizer,
@@ -340,10 +320,10 @@ export default class TimeGridAllDay extends Component {
     } = this.props
 
     const onHide = () => this.setState({ overlay: null })
-
+    if (!this.state.overlay) return null
     return (
       <PopOverlay
-        overlay={overlay}
+        overlay={this.state.overlay}
         accessors={accessors}
         localizer={localizer}
         components={components}
@@ -355,7 +335,7 @@ export default class TimeGridAllDay extends Component {
         handleSelectEvent={this.handleSelectEvent}
         handleDoubleClickEvent={this.handleDoubleClickEvent}
         handleDragStart={handleDragStart}
-        show={!!overlay.position}
+        show={!!this.state.overlay.position}
         overlayDisplay={this.overlayDisplay}
         onHide={onHide}
       />
@@ -371,23 +351,6 @@ export default class TimeGridAllDay extends Component {
   clearSelection() {
     clearTimeout(this._selectTimer)
     this._pendingSelection = []
-  }
-
-  measureGutter() {
-    if (this.measureGutterAnimationFrameRequest) {
-      window.cancelAnimationFrame(this.measureGutterAnimationFrameRequest)
-    }
-    this.measureGutterAnimationFrameRequest = window.requestAnimationFrame(
-      () => {
-        const width = this.gutterRef?.current
-          ? getWidth(this.gutterRef.current)
-          : undefined
-
-        if (width && this.state.gutterWidth !== width) {
-          this.setState({ gutterWidth: width })
-        }
-      }
-    )
   }
 
   applyScroll() {
@@ -429,9 +392,16 @@ export default class TimeGridAllDay extends Component {
     }
   }
 
-  memoizedResources = memoize((resources, accessors) =>
-    Resources(resources, accessors)
+  memoizedResources = memoize(
+    /**
+     * @type {ResourcesFn<TEvent, TResource>}
+     */
+    (resources, accessors) => Resources(resources, accessors)
   )
+
+  getContainer = () => {
+    return this.containerRef.current
+  }
 }
 
 TimeGridAllDay.propTypes = {
@@ -450,7 +420,6 @@ TimeGridAllDay.propTypes = {
 
   rtl: PropTypes.bool,
   resizable: PropTypes.bool,
-  width: PropTypes.number,
 
   accessors: PropTypes.object.isRequired,
   components: PropTypes.object.isRequired,

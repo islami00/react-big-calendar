@@ -1,13 +1,23 @@
-/** @import * as types from './Resources.types*/
+/**
+ * @import * as types from './Resources.types'
+ * @import {CalendarAccessors, RBCResource, RBCEvent} from '../misc.types'
+ * */
 export const NONE = {}
 
 /**
- * @type {types.ResourcesFn}
+ * @template {NonNullable<unknown>} [TEvent=RBCEvent]
+ * @template {NonNullable<unknown>} [TResource=RBCResource]
+ *  @param { TResource[] | undefined} resources
+ *  @param {CalendarAccessors<TEvent, TResource>} accessors
+ *  @returns {types.ResourcesFnReturns<TEvent, TResource>}
  */
 export default function Resources(resources, accessors) {
   return {
     map(fn) {
-      if (!resources) return [fn([NONE, null], 0, 1)]
+      // REASON: This doesn't render anything in the time view when an empty list is passed to resources, even if events exist
+      if (!resources || resources.length === 0) {
+        return [fn([NONE, null], 0, 1)]
+      }
       return resources.map((resource, idx, array) =>
         fn([accessors.resourceId(resource), resource], idx, array.length)
       )
