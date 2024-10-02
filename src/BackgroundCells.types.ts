@@ -5,6 +5,7 @@ import type {
   SelectClickPoint,
   SelectRect,
 } from './Selection.types'
+import type { PropTypeFunc } from './misc.types'
 
 export interface OnSelectSlotArgs {
   start: number
@@ -19,19 +20,19 @@ export interface OnSelectSlotArgs {
 export interface BackgroundCellsProps {
   /** Used to mark days outside the current month in the calendar month view */
   date?: Date
-  getNow: (...args: any[]) => any
+  getNow: PropTypeFunc
 
   getters: object
   components: object
 
-  container?: (...args: any[]) => any
-  dayPropGetter?: (...args: any[]) => any
+  container?: PropTypeFunc
+  dayPropGetter?: PropTypeFunc
   selectable?: SelectableOptions
   longPressThreshold?: number
 
   onSelectSlot?: (args: OnSelectSlotArgs) => any
-  onSelectEnd?: (...args: any[]) => any
-  onSelectStart?: (...args: any[]) => any
+  onSelectEnd?: PropTypeFunc
+  onSelectStart?: PropTypeFunc
 
   range: Date[]
   rtl?: boolean

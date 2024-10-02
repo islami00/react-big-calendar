@@ -1,3 +1,7 @@
+/** @import {TimeGridHeaderAllDayProps} from "./TimeGridHeaderAllDay.types" */
+/** @import {Component} from "react" */
+/** @import {ViewRegisteryKey} from "./components.types" */
+/** @import { RBCEvent, RBCResource } from "./misc.types" */
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import scrollbarSize from 'dom-helpers/scrollbarSize'
@@ -6,12 +10,25 @@ import React from 'react'
 import Header from './Header'
 import { notify } from './utils/helpers'
 
+/**
+ * @template {NonNullable<unknown>} [TEvent=RBCEvent]
+ * @template  {NonNullable<unknown>} [TResource=RBCResource]
+ * @extends {Component<TimeGridHeaderAllDayProps<TEvent,TResource>>}
+ */
 class TimeGridHeaderAllDay extends React.Component {
+  /**
+   *
+   * @param {Date} date
+   * @param {ViewRegisteryKey} view
+   * @param {React.MouseEvent} e
+   */
   handleHeaderClick = (date, view, e) => {
     e.preventDefault()
     notify(this.props.onDrillDown, [date, view])
   }
-
+  /**
+   * @param {Date[]} range
+   */
   renderHeaderCells(range) {
     let {
       localizer,
@@ -61,14 +78,13 @@ class TimeGridHeaderAllDay extends React.Component {
 
   render() {
     let {
-      width,
       rtl,
       range,
-      scrollRef,
       isOverflowing,
       components: { timeGutterHeader: TimeGutterHeader },
     } = this.props
 
+    /** @type {React.CSSProperties} */
     let style = {}
     if (isOverflowing) {
       style[rtl ? 'marginLeft' : 'marginRight'] = `${scrollbarSize() - 1}px`
@@ -77,13 +93,9 @@ class TimeGridHeaderAllDay extends React.Component {
     return (
       <div
         style={style}
-        ref={scrollRef}
         className={clsx('rbc-time-header', isOverflowing && 'rbc-overflowing')}
       >
-        <div
-          className="rbc-label brbc-time-gutter-header"
-          style={{ width, minWidth: width, maxWidth: width }}
-        >
+        <div className="rbc-label brbc-time-gutter-header">
           {TimeGutterHeader && <TimeGutterHeader />}
         </div>
         <div className="rbc-time-header-content">
@@ -102,34 +114,17 @@ class TimeGridHeaderAllDay extends React.Component {
 
 TimeGridHeaderAllDay.propTypes = {
   range: PropTypes.array.isRequired,
-  events: PropTypes.array.isRequired,
-  resources: PropTypes.object,
   getNow: PropTypes.func.isRequired,
   isOverflowing: PropTypes.bool,
 
   rtl: PropTypes.bool,
-  resizable: PropTypes.bool,
-  width: PropTypes.number,
 
   localizer: PropTypes.object.isRequired,
-  accessors: PropTypes.object.isRequired,
   components: PropTypes.object.isRequired,
   getters: PropTypes.object.isRequired,
 
-  selected: PropTypes.object,
-  selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-  longPressThreshold: PropTypes.number,
-
-  allDayMaxRows: PropTypes.number,
-
-  onSelectSlot: PropTypes.func,
-  onSelectEvent: PropTypes.func,
-  onDoubleClickEvent: PropTypes.func,
-  onKeyPressEvent: PropTypes.func,
   onDrillDown: PropTypes.func,
-  onShowMore: PropTypes.func,
   getDrilldownView: PropTypes.func.isRequired,
-  scrollRef: PropTypes.any,
 }
 
 export default TimeGridHeaderAllDay

@@ -1,5 +1,9 @@
-/** @import * as types from './DateContentRow.types*/
-/** @import * as bgcTypes from './BackgroundCells.types*/
+/**
+ * @import * as types from './DateContentRow.types'
+ * @import * as bgcTypes from './BackgroundCells.types'
+ * @import {RBCEvent} from './misc.types'
+ * @import {Component} from 'react'
+ * */
 import React, { createRef } from 'react'
 import clsx from 'clsx'
 import getHeight from 'dom-helpers/height'
@@ -14,9 +18,14 @@ import ScrollableWeekWrapper from './ScrollableWeekWrapper'
 import * as DateSlotMetrics from './utils/DateSlotMetrics'
 
 /**
- * @extends {types.DateContentRow}
+ * @template {NonNullable<unknown>} [TEvent=RBCEvent]
+ * @extends {Component<types.DateContentRowProps<TEvent>>}
+ * @type {typeof types.DateContentRow}
  */
 class DateContentRow extends React.Component {
+  /**
+   * @param  {[props: types.DateContentRowProps<TEvent>, context: any]} args
+   */
   constructor(...args) {
     super(...args)
 

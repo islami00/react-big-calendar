@@ -788,6 +788,7 @@ class Calendar extends React.Component {
       timeSlotWrapper: PropTypes.elementType,
       timeGutterHeader: PropTypes.elementType,
       timeGutterWrapper: PropTypes.elementType,
+      timeGutterAllDayWrapper: PropTypes.elementType,
       timeGutterAllDaySlot: PropTypes.elementType,
       resourceHeader: PropTypes.elementType,
 
@@ -961,6 +962,7 @@ class Calendar extends React.Component {
         weekWrapper: NoopWrapper,
         timeSlotWrapper: NoopWrapper,
         timeGutterWrapper: NoopWrapper,
+        timeGutterAllDayWrapper: NoopWrapper,
       }),
       accessors: {
         start: wrapAccessor(startAccessor),

@@ -9,7 +9,7 @@ import type {
 export type HorizontalResourceProps<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
-> = RBCWeekProps<TEvent, TResource>
+> = Omit<RBCWeekProps<TEvent, TResource>, 'width'>
 
 declare function HorizontalResource<
   TEvent extends object = RBCEvent,

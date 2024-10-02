@@ -1,13 +1,18 @@
-import type { CalendarComponentsWithDefaults } from './Calendar.types'
-import type { RBCEvent, RBCResource } from './misc.types'
+import type { CalendarComponentsWithDefaults } from './components.types'
+import type {
+  CalendarAccessors,
+  CalendarGetters,
+  RBCEvent,
+  RBCResource,
+} from './misc.types'
 import type { ResourcesFnReturns } from './utils/Resources.types'
 
 export interface TimeGutterAllDayProps<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
 > {
-  resources: ResourcesFnReturns
+  resources: ResourcesFnReturns<TEvent, TResource>
   components: CalendarComponentsWithDefaults<TEvent, TResource>
-  getters?: object
-  accessors: object
+  getters?: CalendarGetters<TEvent>
+  accessors: CalendarAccessors<TEvent, TResource>
 }

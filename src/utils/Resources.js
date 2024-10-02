@@ -1,8 +1,15 @@
-/** @import * as types from './Resources.types*/
+/**
+ * @import * as types from './Resources.types'
+ * @import {CalendarAccessors, RBCResource, RBCEvent} from '../misc.types'
+ * */
 export const NONE = {}
 
 /**
- * @type {types.ResourcesFn}
+ * @template {NonNullable<unknown>} [TEvent=RBCEvent]
+ * @template {NonNullable<unknown>} [TResource=RBCResource]
+ *  @param { TResource[] | undefined} resources
+ *  @param {CalendarAccessors<TEvent, TResource>} accessors
+ *  @returns {types.ResourcesFnReturns<TEvent, TResource>}
  */
 export default function Resources(resources, accessors) {
   return {
