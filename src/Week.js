@@ -1,4 +1,5 @@
-/** @import * as types from "./Week.types" */
+/** @import WeekClass from "./Week.types" */
+/** @import * as misc from "./misc.types" */
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -7,8 +8,10 @@ import { DayLayoutAlgorithmPropType } from './utils/propTypes'
 
 import TimeGrid from './TimeGrid'
 /**
- * @extends {types.Week}
- * @type {typeof types.Week}
+ * @template {NonNullable<unknown>} [TEvent=misc.RBCEvent]
+ * @template {NonNullable<unknown>} [TResource=misc.RBCResource]
+ * @extends {WeekClass<TEvent, TResource>}
+ * @type {typeof WeekClass<TEvent, TResource>}
  */
 class Week extends React.Component {
   render() {

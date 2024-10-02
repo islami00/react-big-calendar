@@ -138,7 +138,7 @@ function isSameDate(date1, date2) {
 function startAndEndAreDateOnly(start, end) {
   return isJustDate(start) && isJustDate(end)
 }
-/** @extends {types.DateLocalizer} */
+/** @implements {types.DateLocalizer} */
 export class DateLocalizer {
   /** @param {types.DateLocalizerSpec} spec */
   constructor(spec) {

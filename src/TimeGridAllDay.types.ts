@@ -1,6 +1,8 @@
 import type * as React from 'react'
 import type { TimeGridProps } from 'react-big-calendar'
 import type {
+  CalendarAccessors,
+  CalendarGetters,
   DaylayoutAlgorithmOptions,
   HandleViewNavigateFn,
   PopupOffsetOptions,
@@ -8,22 +10,24 @@ import type {
   RBCEvent,
   RBCResource,
 } from './misc.types'
-import type { CalendarComponentsWithDefaults } from './Calendar.types'
+import type { CalendarComponentsWithDefaults } from './components.types'
 import type { DateLocalizer } from './localizer.types'
+import type { CalendarViewComponentProps } from './components.types'
+
+interface TimeGridAllDayOverlayOptions {
+  date: Date
+  events: RBCEvent[]
+  position: {
+    top: number
+    left: number
+    height: number
+    width: string
+  }
+  target: HTMLElement
+}
 
 export interface TimeGridAllDayState {
-  gutterWidth: number | undefined
-  overlay: {
-    date: Date
-    events: RBCEvent[]
-    position: {
-      top: number
-      left: number
-      height: number
-      width: string
-    }
-    target: HTMLElement
-  } | null
+  overlay?: TimeGridAllDayOverlayOptions | null
   isOverflowing: boolean | null
 }
 
@@ -36,11 +40,9 @@ type CommonProps<
   | 'resources'
   | 'min'
   | 'max'
-  | 'getNow'
   | 'scrollToTime'
   | 'showMultiDayTimes'
   | 'rtl'
-  | 'width'
   | 'selected'
   | 'selectable'
   | 'longPressThreshold'
@@ -50,31 +52,30 @@ type CommonProps<
   | 'onSelectEvent'
   | 'onDoubleClickEvent'
   | 'onKeyPressEvent'
-  | 'onDrillDown'
 >
 export interface TimeGridAllDayProps<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
-> extends CommonProps<TEvent, TResource> {
+> extends CommonProps<TEvent, TResource>,
+    CalendarViewComponentProps {
   events: TEvent[]
   backgroundEvents: TEvent[]
   resources?: TResource[]
 
-  range?: Date[]
-
+  range: Date[]
+  getNow: () => Date
   enableAutoScroll?: boolean
 
   resizable?: boolean
 
-  accessors: object
-  getters: object
+  accessors: CalendarAccessors<TEvent, TResource>
+  getters: CalendarGetters<TEvent>
   localizer: DateLocalizer
 
   allDayMaxRows?: number
 
   onNavigate?: HandleViewNavigateFn
   onShowMore?: PropTypeFunc
-  getDrilldownView: TimeGridProps<TEvent, TResource>['getDrilldownView']
 
   dayLayoutAlgorithm?: DaylayoutAlgorithmOptions
   showAllEvents?: boolean
@@ -88,10 +89,12 @@ export interface TimeGridAllDayProps<
   components: CalendarComponentsWithDefaults<TEvent, TResource>
 }
 
-export declare class TimeGridAllDay<
+declare class TimeGridAllDay<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
 > extends React.Component<
   TimeGridAllDayProps<TEvent, TResource>,
   TimeGridAllDayState
 > {}
+
+export default TimeGridAllDay

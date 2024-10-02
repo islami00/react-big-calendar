@@ -1,3 +1,7 @@
+/**
+ * @import {CalendarAccessors} from '../misc.types'
+ * @import {DateLocalizer } from '../localizer.types'
+ */
 import findIndex from 'lodash/findIndex'
 
 export function endOfRange({ dateRange, unit = 'day', localizer }) {
@@ -64,11 +68,13 @@ export function eventLevels(rowSegments, limit = Infinity) {
 }
 /**
  *
- * @param {import('react-big-calendar').Event} e
- * @param {import('react-big-calendar').Event} start
- * @param {import('react-big-calendar').Event} end
- * @param {object} accessors
- * @param {import("../localizer").DateLocalizer} localizer
+ * @template {NonNullable<unknown>} TEvent
+ * @template {NonNullable<unknown>} TResource
+ * @param {TEvent} e
+ * @param {Date} start
+ * @param {Date} end
+ * @param {CalendarAccessors<TEvent,TResource>} accessors
+ * @param {DateLocalizer} localizer
  * @returns
  */
 export function inRange(e, start, end, accessors, localizer) {

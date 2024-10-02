@@ -1,25 +1,28 @@
+import type * as React from 'react'
 import type { NavigateAction } from 'react-big-calendar'
 import type {
   OnSelectSlotArgs,
   SelectableOptions,
 } from './BackgroundCells.types'
-import type { CalendarComponentsWithDefaults } from './Calendar.types'
+import type {
+  CalendarComponentsWithDefaults,
+  CalendarViewComponentProps,
+  ViewComponentStatic,
+} from './components.types'
 import type { DateLocalizer } from './localizer.types'
 import type {
   DaylayoutAlgorithmOptions,
   HandleViewNavigateFn,
-  PopupOffsetObject,
   PopupOffsetOptions,
   PropTypeFunc,
   RBCEvent,
   RBCResource,
 } from './misc.types'
-import type * as React from 'react'
 
 export interface RBCWeekProps<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource[]
-> {
+> extends CalendarViewComponentProps {
   date: Date
 
   events: TEvent[]
@@ -60,8 +63,6 @@ export interface RBCWeekProps<
   onDoubleClickEvent?: PropTypeFunc
   onKeyPressEvent?: PropTypeFunc
   onShowMore?: PropTypeFunc
-  onDrillDown?: PropTypeFunc
-  getDrilldownView: PropTypeFunc
 
   dayLayoutAlgorithm?: DaylayoutAlgorithmOptions
   showAllEvents?: boolean
@@ -80,7 +81,7 @@ export type WeekNavigateFn = <
   date: Date,
   action: NavigateAction,
   props: RBCWeekProps<TEvent, TResource>
-) => void
+) => Date
 
 type WeekRangeFnProps<TEvent extends object, TResource extends object> = Pick<
   RBCWeekProps<TEvent, TResource>,
@@ -93,7 +94,7 @@ export type WeekRangeFn = <
 >(
   date: Date,
   props: WeekRangeFnProps<TEvent, TResource>
-) => void
+) => Date[]
 
 export type WeekTitleFn = <
   TEvent extends object = RBCEvent,
@@ -101,15 +102,17 @@ export type WeekTitleFn = <
 >(
   date: Date,
   props: RBCWeekProps<TEvent, TResource>
-) => void
+) => string
 
-export declare class Week<
+declare class Week<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
 > extends React.Component<RBCWeekProps<TEvent, TResource>> {
-  static navigate: WeekNavigateFn
+  static navigate: ViewComponentStatic['navigate']
 
-  static range: WeekRangeFn
+  static range: ViewComponentStatic['range']
 
-  static title: WeekTitleFn
+  static title: ViewComponentStatic['title']
 }
+
+export default Week
