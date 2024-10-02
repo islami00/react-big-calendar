@@ -56,6 +56,8 @@ type SharedCalendarProps<
   | 'drilldownView'
   | 'defaultView'
   | 'ref'
+  | 'getDrilldownView'
+  | 'onDrillDown'
 >
 export interface RBCCalendarProps<
   TEvent extends object = RBCEvent,
