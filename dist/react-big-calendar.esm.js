@@ -2511,6 +2511,16 @@ var DateHeader = function DateHeader(_ref) {
     label
   )
 }
+DateHeader.propTypes =
+  process.env.NODE_ENV !== 'production'
+    ? {
+        label: PropTypes.node,
+        date: PropTypes.instanceOf(Date),
+        drilldownView: PropTypes.string,
+        onDrillDown: PropTypes.func,
+        isOffRange: PropTypes.bool,
+      }
+    : {}
 
 var _excluded$6 = ['date', 'className']
 var eventsForWeek = function eventsForWeek(

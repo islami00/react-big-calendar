@@ -47698,6 +47698,12 @@
       label
     )
   }
+  Header.propTypes =
+    'development' !== 'production'
+      ? {
+          label: propTypesExports.node,
+        }
+      : {}
 
   var DateHeader = function DateHeader(_ref) {
     var label = _ref.label,
