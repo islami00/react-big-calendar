@@ -5655,7 +5655,7 @@
   function startAndEndAreDateOnly(start, end) {
     return isJustDate(start) && isJustDate(end)
   }
-  /** @extends {types.DateLocalizer} */
+  /** @implements {types.DateLocalizer} */
   var DateLocalizer = /*#__PURE__*/ _createClass(
     /** @param {types.DateLocalizerSpec} spec */
     function DateLocalizer(spec) {
@@ -47252,11 +47252,13 @@
   }
   /**
    *
-   * @param {import('react-big-calendar').Event} e
-   * @param {import('react-big-calendar').Event} start
-   * @param {import('react-big-calendar').Event} end
-   * @param {object} accessors
-   * @param {import("../localizer").DateLocalizer} localizer
+   * @template {NonNullable<unknown>} TEvent
+   * @template {NonNullable<unknown>} TResource
+   * @param {TEvent} e
+   * @param {Date} start
+   * @param {Date} end
+   * @param {CalendarAccessors<TEvent,TResource>} accessors
+   * @param {DateLocalizer} localizer
    * @returns
    */
   function inRange(e, start, end, accessors, localizer) {
@@ -47404,9 +47406,14 @@
   }
 
   /**
-   * @extends {types.DateContentRow}
+   * @template {NonNullable<unknown>} [TEvent=RBCEvent]
+   * @extends {Component<types.DateContentRowProps<TEvent>>}
+   * @type {typeof types.DateContentRow}
    */
   var DateContentRow = /*#__PURE__*/ (function (_React$Component) {
+    /**
+     * @param  {[props: types.DateContentRowProps<TEvent>, context: any]} args
+     */
     function DateContentRow() {
       var _this
       _classCallCheck(this, DateContentRow)
@@ -47675,6 +47682,11 @@
     maxRows: Infinity,
   }
 
+  /** @import {HeaderProps} from "./Header.types" */
+
+  /**
+   * @param {HeaderProps} props
+   */
   var Header = function Header(_ref) {
     var label = _ref.label
     return /*#__PURE__*/ React.createElement(
@@ -50401,16 +50413,26 @@
       : offset$2(node).width
   }
 
-  /** @import * as types from './Resources.types*/
+  /**
+   * @import * as types from './Resources.types'
+   * @import {CalendarAccessors, RBCResource, RBCEvent} from '../misc.types'
+   * */
   var NONE = {}
 
   /**
-   * @type {types.ResourcesFn}
+   * @template {NonNullable<unknown>} [TEvent=RBCEvent]
+   * @template {NonNullable<unknown>} [TResource=RBCResource]
+   *  @param { TResource[] | undefined} resources
+   *  @param {CalendarAccessors<TEvent, TResource>} accessors
+   *  @returns {types.ResourcesFnReturns<TEvent, TResource>}
    */
   function Resources(resources, accessors) {
     return {
       map: function map(fn) {
-        if (!resources) return [fn([NONE, null], 0, 1)]
+        // REASON: This doesn't render anything in the time view when an empty list is passed to resources, even if events exist
+        if (!resources || resources.length === 0) {
+          return [fn([NONE, null], 0, 1)]
+        }
         return resources.map(function (resource, idx, array) {
           return fn(
             [accessors.resourceId(resource), resource],
@@ -50559,9 +50581,7 @@
           )
         }
       }
-      _this.memoizedResources = memoizeOne(function (resources, accessors) {
-        return Resources(resources, accessors)
-      })
+      _this.memoizedResources = memoizeOne(Resources)
       _this.state = {
         gutterWidth: undefined,
         isOverflowing: null,
@@ -53461,6 +53481,7 @@
                   weekWrapper: NoopWrapper,
                   timeSlotWrapper: NoopWrapper,
                   timeGutterWrapper: NoopWrapper,
+                  timeGutterAllDayWrapper: NoopWrapper,
                 }
               ),
               accessors: {

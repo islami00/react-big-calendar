@@ -1,9 +1,14 @@
+import type * as React from 'react'
 import type { NavigateAction } from 'react-big-calendar'
 import type {
   OnSelectSlotArgs,
   SelectableOptions,
 } from './BackgroundCells.types'
-import type { CalendarComponentsWithDefaults } from './Calendar.types'
+import type {
+  CalendarComponentsWithDefaults,
+  CalendarViewComponentProps,
+  ViewComponentStatic,
+} from './components.types'
 import type { DateLocalizer } from './localizer.types'
 import type {
   DaylayoutAlgorithmOptions,
@@ -13,11 +18,6 @@ import type {
   RBCEvent,
   RBCResource,
 } from './misc.types'
-import type * as React from 'react'
-import type {
-  CalendarViewComponentProps,
-  ViewComponentStatic,
-} from './components.types'
 
 export interface RBCWeekProps<
   TEvent extends object = RBCEvent,

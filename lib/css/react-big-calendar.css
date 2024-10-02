@@ -924,5 +924,11 @@ button.rbc-input::-moz-focus-inner {
 .brbc-time-view-all-day-inline .brbc-resource-row.brbc-last {
   max-height: 100%;
 }
+.brbc-time-view-all-day-inline .brbc-time-gutter .brbc-resource-row,
+.brbc-time-view-all-day-inline .rbc-time-header .brbc-time-gutter-header {
+  width: 75px;
+  min-width: 75px;
+  max-width: 75px;
+}
 
 /*# sourceMappingURL=react-big-calendar.css.map */
