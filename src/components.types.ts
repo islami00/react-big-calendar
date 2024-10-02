@@ -37,7 +37,7 @@ export interface ViewComponentStaticRangeArgs {
 
 export interface ViewComponentStatic extends ViewStatic {
   // Fixed props because it's called in the calendar for all like this
-  range(date: Date, { localizer }: ViewComponentStaticRangeArgs): Date[]
+  range(date: Date, args: ViewComponentStaticRangeArgs): Date[]
 }
 
 export interface ViewFunctionalComponent
