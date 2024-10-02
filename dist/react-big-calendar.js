@@ -51503,6 +51503,12 @@
   )
 
   var _excluded$1 = ['action', 'date', 'today']
+  /**
+   *
+   * @param {ViewComponent | undefined} View
+   * @param {MoveDateParam1} param1
+   * @returns {Date}
+   */
   function moveDate(View, _ref) {
     var action = _ref.action,
       date = _ref.date,
@@ -51525,6 +51531,10 @@
     return date
   }
 
+  /**
+   * @extends {ToolbarClass}
+   * @type  {typeof ToolbarClass}
+   * */
   var Toolbar = /*#__PURE__*/ (function (_React$Component) {
     function Toolbar() {
       var _this
@@ -51537,9 +51547,11 @@
         args[_key] = arguments[_key]
       }
       _this = _callSuper(this, Toolbar, [].concat(args))
+      /** @param {rbc.NavigateAction} action */
       _this.navigate = function (action) {
         _this.props.onNavigate(action)
       }
+      /** @param {ViewRegisteryKey} action */
       _this.view = function (view) {
         _this.props.onView(view)
       }
@@ -51607,6 +51619,7 @@
       },
       {
         key: 'viewNamesGroup',
+        /** @param {rbc.Messages} action */
         value: function viewNamesGroup(messages) {
           var _this2 = this
           var viewNames = this.props.views
@@ -53096,6 +53109,10 @@
     var names = viewNames(_views)
     return names.indexOf(view) !== -1
   }
+  /**
+   * @extends {RBCCalendar}
+   * @type {typeof RBCCalendar}
+   */
   var Calendar = /*#__PURE__*/ (function (_React$Component) {
     function Calendar() {
       var _this
@@ -53108,9 +53125,11 @@
         _args[_key] = arguments[_key]
       }
       _this = _callSuper(this, Calendar, [].concat(_args))
+      /** @type {RBCCalendar['getViews']} */
       _this.getViews = function () {
         var views = _this.props.views
         if (Array.isArray(views)) {
+          // Transform a list of string
           return transform_1(
             views,
             function (obj, name) {
@@ -53121,6 +53140,7 @@
         }
         if (_typeof(views) === 'object') {
           return mapValues_1(views, function (value, key) {
+            // Keep supported views
             if (value === true) {
               return VIEWS[key]
             }
@@ -53129,10 +53149,12 @@
         }
         return VIEWS
       }
+      /** @type {RBCCalendar['getView']} */
       _this.getView = function () {
         var views = _this.getViews()
         return views[_this.props.view]
       }
+      /** @type {RBCCalendar['getDrilldownView']} */
       _this.getDrilldownView = function (date) {
         var _this$props = _this.props,
           view = _this$props.view,
@@ -53143,8 +53165,8 @@
       }
       /**
        *
-       * @param date
-       * @param viewComponent
+       * @param {Date} date
+       * @param {ViewComponent} viewComponent
        * @param {'month'|'week'|'work_week'|'day'|'agenda'} [view] - optional
        * parameter. It appears when range change on view changing. It could be handy
        * when you need to have both: range and view type at once, i.e. for manage rbc
@@ -53169,6 +53191,11 @@
           }
         }
       }
+      /**
+       *
+       * @param {rbc.NavigateAction} action
+       * @param {Date | null} newDate
+       */
       _this.handleNavigate = function (action, newDate) {
         var _this$props3 = _this.props,
           view = _this$props3.view,
@@ -53193,6 +53220,7 @@
         onNavigate(date, view, action)
         _this.handleRangeChange(date, ViewComponent)
       }
+      /** @param {rbc.View} view */
       _this.handleViewChange = function (view) {
         if (view !== _this.props.view && isValidView(view, _this.props)) {
           _this.props.onView(view)
@@ -53234,9 +53262,14 @@
         }
         notify(_this.props.onKeyPressEvent, args)
       }
+      /** @param {rbc.SlotInfo} slotInfo */
       _this.handleSelectSlot = function (slotInfo) {
         notify(_this.props.onSelectSlot, slotInfo)
       }
+      /**
+       * @param {Date} date
+       * @param {ViewRegisteryKey} view
+       * */
       _this.handleDrillDown = function (date, view) {
         var onDrillDown = _this.props.onDrillDown
         if (onDrillDown) {
@@ -53251,6 +53284,7 @@
       }
       return _this
     }
+    /** @param {RBCCalendarProps} nextProps */
     _inherits(Calendar, _React$Component)
     return _createClass(
       Calendar,
@@ -53346,6 +53380,8 @@
               context: Calendar.getContext(nextProps),
             }
           },
+
+          /** @param {RBCCalendarProps} */
         },
         {
           key: 'getContext',

@@ -10,6 +10,7 @@ import type {
 } from './misc.types'
 import type { CalendarComponentsWithDefaults } from './Calendar.types'
 import type { DateLocalizer } from './localizer.types'
+import type { CalendarViewComponentProps } from './components.types'
 
 export interface TimeGridAllDayState {
   gutterWidth: number | undefined
@@ -50,12 +51,12 @@ type CommonProps<
   | 'onSelectEvent'
   | 'onDoubleClickEvent'
   | 'onKeyPressEvent'
-  | 'onDrillDown'
 >
 export interface TimeGridAllDayProps<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
-> extends CommonProps<TEvent, TResource> {
+> extends CommonProps<TEvent, TResource>,
+    CalendarViewComponentProps {
   events: TEvent[]
   backgroundEvents: TEvent[]
   resources?: TResource[]
@@ -74,7 +75,6 @@ export interface TimeGridAllDayProps<
 
   onNavigate?: HandleViewNavigateFn
   onShowMore?: PropTypeFunc
-  getDrilldownView: TimeGridProps<TEvent, TResource>['getDrilldownView']
 
   dayLayoutAlgorithm?: DaylayoutAlgorithmOptions
   showAllEvents?: boolean
