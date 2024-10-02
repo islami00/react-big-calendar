@@ -1,6 +1,8 @@
-/** @import ToolbarClass, {RBCToolbarProps} from "./Toolbar.types" */
-/** @import * as rbc from "react-big-calendar" */
-/** @import {ViewRegisteryKey} from "./components.types" */
+/**
+ * @import ToolbarClass from "./Toolbar.types"
+ * @import * as rbc from "react-big-calendar"
+ * @import {ViewRegisteryKey} from "./components.types"
+ * */
 import PropTypes from 'prop-types'
 import React from 'react'
 import clsx from 'clsx'

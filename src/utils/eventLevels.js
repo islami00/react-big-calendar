@@ -1,6 +1,7 @@
 /**
  * @import {CalendarAccessors} from '../misc.types'
  * @import {DateLocalizer } from '../localizer.types'
+ * @import {EventSegmentsFn, EventLevelsFn} from './eventLevels.types'
  */
 import findIndex from 'lodash/findIndex'
 
@@ -13,7 +14,7 @@ export function endOfRange({ dateRange, unit = 'day', localizer }) {
 
 // properly calculating segments requires working with dates in
 // the timezone we're working with, so we use the localizer
-/** @type {import("./eventLevels.types").EventSegmentsFn} */
+/** @type {EventSegmentsFn} */
 export function eventSegments(event, range, accessors, localizer) {
   let { first, last } = endOfRange({ dateRange: range, localizer })
 
@@ -40,7 +41,7 @@ export function eventSegments(event, range, accessors, localizer) {
   }
 }
 
-/** @type {import("./eventLevels.types").EventLevelsFn} */
+/** @type {EventLevelsFn} */
 export function eventLevels(rowSegments, limit = Infinity) {
   let i,
     j,
