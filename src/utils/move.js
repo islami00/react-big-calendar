@@ -1,6 +1,7 @@
-/** @import {MoveDateParam1} from './move.types' */
-/** @import {ViewComponent} from '../components.types' */
-
+/**
+ * @import {MoveDateParam1} from './move.types'
+ * @import {ViewComponent} from '../components.types'
+ * */
 import invariant from 'invariant'
 import { navigate } from './constants'
 import VIEWS from '../Views'
