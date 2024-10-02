@@ -7,7 +7,10 @@ export const NONE = {}
 export default function Resources(resources, accessors) {
   return {
     map(fn) {
-      if (!resources) return [fn([NONE, null], 0, 1)]
+      // REASON: This doesn't render anything in the time view when an empty list is passed to resources, even if events exist
+      if (!resources || resources.length === 0) {
+        return [fn([NONE, null], 0, 1)]
+      }
       return resources.map((resource, idx, array) =>
         fn([accessors.resourceId(resource), resource], idx, array.length)
       )

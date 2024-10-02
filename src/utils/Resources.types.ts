@@ -23,6 +23,6 @@ export interface ResourcesFnReturns {
   groupEvents: (events: RBCEvent[]) => ResourcesFnGroupedEvents
 }
 export type ResourcesFn = (
-  resources: RBCResource[],
+  resources: RBCResource[] | undefined,
   accessors: object
 ) => ResourcesFnReturns

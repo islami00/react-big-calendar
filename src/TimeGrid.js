@@ -1,3 +1,4 @@
+/** @import {RBCResource} from "./misc.types" */
 import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
@@ -409,9 +410,7 @@ export default class TimeGrid extends Component {
     }
   }
 
-  memoizedResources = memoize((resources, accessors) =>
-    Resources(resources, accessors)
-  )
+  memoizedResources = memoize(Resources)
 }
 
 TimeGrid.propTypes = {

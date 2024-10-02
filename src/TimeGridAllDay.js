@@ -1,6 +1,7 @@
 /** @import TimeGridAllDayClass,  {TimeGridAllDayState} from './TimeGridAllDay.types*/
 /** @import {OnSelectSlotArgs} from './BackgroundCells.types*/
 /** @import {ResourcesFnGroupedEvents, ResourcesFnTuple} from './utils/Resources.types*/
+/** @import {RBCResource} from './misc.types*/
 import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
@@ -175,7 +176,8 @@ export default class TimeGridAllDay extends Component {
     return (
       <DateContentRow
         getNow={getNow}
-        key={resourceId.toString()}
+        key={`${resourceId}`}
+        container={this.getContainer}
         rtl={rtl}
         minRows={1}
         // Expect styles to only have two rows, otherwise use a similar method as Month to change it
@@ -261,7 +263,6 @@ export default class TimeGridAllDay extends Component {
 
     const memoizedResourcesResult = this.memoizedResources(resources, accessors)
     const groupedEvents = memoizedResourcesResult.groupEvents(allDayEvents)
-
     return (
       <div
         className={clsx('brbc-time-view-all-day-inline')}
@@ -429,9 +430,11 @@ export default class TimeGridAllDay extends Component {
     }
   }
 
-  memoizedResources = memoize((resources, accessors) =>
-    Resources(resources, accessors)
-  )
+  memoizedResources = memoize(Resources)
+
+  getContainer = () => {
+    return this.containerRef.current
+  }
 }
 
 TimeGridAllDay.propTypes = {

@@ -6,6 +6,7 @@ import type {
 import type { RBCEvent, PropTypeFunc } from './misc.types'
 
 export interface DateContentRowProps {
+  /** Passed to the background, and used in marking today in the header if headers are included */
   date?: Date
   events: RBCEvent[]
   range: Date[]
@@ -14,8 +15,10 @@ export interface DateContentRowProps {
   resizable?: boolean
   resourceId: any
   renderForMeasure?: boolean
+  /** Render a header node */
   renderHeader: PropTypeFunc
 
+  /** Important for selection */
   container?: PropTypeFunc
   selected?: object
   selectable?: SelectableOptions

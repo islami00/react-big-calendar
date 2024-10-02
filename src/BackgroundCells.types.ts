@@ -17,6 +17,7 @@ export interface OnSelectSlotArgs {
 }
 
 export interface BackgroundCellsProps {
+  /** Used to mark days outside the current month in the calendar month view */
   date?: Date
   getNow: (...args: any[]) => any
 
