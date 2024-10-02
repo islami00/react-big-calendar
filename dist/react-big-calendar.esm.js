@@ -1986,7 +1986,7 @@ function endOfRange(_ref) {
 
 // properly calculating segments requires working with dates in
 // the timezone we're working with, so we use the localizer
-/** @type {import("./eventLevels.types").EventSegmentsFn} */
+/** @type {EventSegmentsFn} */
 function eventSegments(event, range, accessors, localizer) {
   var _endOfRange = endOfRange({
       dateRange: range,
@@ -2016,7 +2016,7 @@ function eventSegments(event, range, accessors, localizer) {
   }
 }
 
-/** @type {import("./eventLevels.types").EventLevelsFn} */
+/** @type {EventLevelsFn} */
 function eventLevels(rowSegments) {
   var limit =
     arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Infinity
@@ -2492,12 +2492,6 @@ var Header = function Header(_ref) {
     label
   )
 }
-Header.propTypes =
-  process.env.NODE_ENV !== 'production'
-    ? {
-        label: PropTypes.node,
-      }
-    : {}
 
 var DateHeader = function DateHeader(_ref) {
   var label = _ref.label,
@@ -4312,14 +4306,6 @@ var ResourceHeader = function ResourceHeader(_ref) {
   var label = _ref.label
   return /*#__PURE__*/ React.createElement(React.Fragment, null, label)
 }
-ResourceHeader.propTypes =
-  process.env.NODE_ENV !== 'production'
-    ? {
-        label: PropTypes.node,
-        index: PropTypes.number,
-        resource: PropTypes.object,
-      }
-    : {}
 
 var TimeGridHeader = /*#__PURE__*/ (function (_React$Component) {
   function TimeGridHeader() {
@@ -4615,7 +4601,7 @@ function Resources(resources, accessors) {
   }
 }
 
-/** @extends {React.Component<import("react-big-calendar").TimeGridProps>} */
+/** @extends {React.Component<TimeGridProps>} */
 var TimeGrid = /*#__PURE__*/ (function (_Component) {
   function TimeGrid(props) {
     var _this
@@ -4729,7 +4715,14 @@ var TimeGrid = /*#__PURE__*/ (function (_Component) {
         )
       }
     }
-    _this.memoizedResources = memoize(Resources)
+    _this.memoizedResources = memoize(
+      /**
+       * @type {ResourcesFn}
+       */
+      function (resources, accessors) {
+        return Resources(resources, accessors)
+      }
+    )
     _this.state = {
       gutterWidth: undefined,
       isOverflowing: null,

@@ -47189,7 +47189,7 @@
 
   // properly calculating segments requires working with dates in
   // the timezone we're working with, so we use the localizer
-  /** @type {import("./eventLevels.types").EventSegmentsFn} */
+  /** @type {EventSegmentsFn} */
   function eventSegments(event, range, accessors, localizer) {
     var _endOfRange = endOfRange({
         dateRange: range,
@@ -47219,7 +47219,7 @@
     }
   }
 
-  /** @type {import("./eventLevels.types").EventLevelsFn} */
+  /** @type {EventLevelsFn} */
   function eventLevels(rowSegments) {
     var limit =
       arguments.length > 1 && arguments[1] !== undefined
@@ -50467,7 +50467,7 @@
     }
   }
 
-  /** @extends {React.Component<import("react-big-calendar").TimeGridProps>} */
+  /** @extends {React.Component<TimeGridProps>} */
   var TimeGrid = /*#__PURE__*/ (function (_Component) {
     function TimeGrid(props) {
       var _this
@@ -50581,7 +50581,14 @@
           )
         }
       }
-      _this.memoizedResources = memoizeOne(Resources)
+      _this.memoizedResources = memoizeOne(
+        /**
+         * @type {ResourcesFn}
+         */
+        function (resources, accessors) {
+          return Resources(resources, accessors)
+        }
+      )
       _this.state = {
         gutterWidth: undefined,
         isOverflowing: null,
