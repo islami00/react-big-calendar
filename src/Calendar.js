@@ -1,3 +1,6 @@
+/** @import RBCCalendar, {RBCCalendarProps,ViewComponent, ViewRegisteryKey} from "./Calendar.types" */
+/** @import  {ViewComponent, ViewRegisteryKey} from "./components.types" */
+/** @import * as rbc from 'react-big-calendar' */
 import PropTypes from 'prop-types'
 import React from 'react'
 import { uncontrollable } from 'uncontrollable'
@@ -42,7 +45,10 @@ function isValidView(view, { views: _views }) {
   let names = viewNames(_views)
   return names.indexOf(view) !== -1
 }
-
+/**
+ * @extends {RBCCalendar}
+ * @type {typeof RBCCalendar}
+ */
 class Calendar extends React.Component {
   static propTypes = {
     /**
@@ -902,10 +908,12 @@ class Calendar extends React.Component {
       context: Calendar.getContext(this.props),
     }
   }
+  /** @param {RBCCalendarProps} nextProps */
   static getDerivedStateFromProps(nextProps) {
     return { context: Calendar.getContext(nextProps) }
   }
 
+  /** @param {RBCCalendarProps} */
   static getContext({
     startAccessor,
     endAccessor,
@@ -967,15 +975,18 @@ class Calendar extends React.Component {
     }
   }
 
+  /** @type {RBCCalendar['getViews']} */
   getViews = () => {
     const views = this.props.views
 
     if (Array.isArray(views)) {
+      // Transform a list of string
       return transform(views, (obj, name) => (obj[name] = VIEWS[name]), {})
     }
 
     if (typeof views === 'object') {
       return mapValues(views, (value, key) => {
+        // Keep supported views
         if (value === true) {
           return VIEWS[key]
         }
@@ -987,12 +998,14 @@ class Calendar extends React.Component {
     return VIEWS
   }
 
+  /** @type {RBCCalendar['getView']} */
   getView = () => {
     const views = this.getViews()
 
     return views[this.props.view]
   }
 
+  /** @type {RBCCalendar['getDrilldownView']} */
   getDrilldownView = (date) => {
     const { view, drilldownView, getDrilldownView } = this.props
 
@@ -1077,8 +1090,8 @@ class Calendar extends React.Component {
 
   /**
    *
-   * @param date
-   * @param viewComponent
+   * @param {Date} date
+   * @param {ViewComponent} viewComponent
    * @param {'month'|'week'|'work_week'|'day'|'agenda'} [view] - optional
    * parameter. It appears when range change on view changing. It could be handy
    * when you need to have both: range and view type at once, i.e. for manage rbc
@@ -1098,6 +1111,11 @@ class Calendar extends React.Component {
     }
   }
 
+  /**
+   *
+   * @param {rbc.NavigateAction} action
+   * @param {Date | null} newDate
+   */
   handleNavigate = (action, newDate) => {
     let { view, date, getNow, onNavigate, ...props } = this.props
     let ViewComponent = this.getView()
@@ -1114,6 +1132,7 @@ class Calendar extends React.Component {
     this.handleRangeChange(date, ViewComponent)
   }
 
+  /** @param {rbc.View} view */
   handleViewChange = (view) => {
     if (view !== this.props.view && isValidView(view, this.props)) {
       this.props.onView(view)
@@ -1139,10 +1158,15 @@ class Calendar extends React.Component {
     notify(this.props.onKeyPressEvent, args)
   }
 
+  /** @param {rbc.SlotInfo} slotInfo */
   handleSelectSlot = (slotInfo) => {
     notify(this.props.onSelectSlot, slotInfo)
   }
 
+  /**
+   * @param {Date} date
+   * @param {ViewRegisteryKey} view
+   * */
   handleDrillDown = (date, view) => {
     const { onDrillDown } = this.props
     if (onDrillDown) {
