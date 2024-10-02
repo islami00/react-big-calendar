@@ -78,7 +78,7 @@ export type WeekNavigateFn = <
   date: Date,
   action: NavigateAction,
   props: RBCWeekProps<TEvent, TResource>
-) => void
+) => Date
 
 type WeekRangeFnProps<TEvent extends object, TResource extends object> = Pick<
   RBCWeekProps<TEvent, TResource>,

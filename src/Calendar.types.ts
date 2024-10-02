@@ -44,8 +44,8 @@ export type CalendarComponentsWithDefaults<
 >
 
 type SharedCalendarProps<
-  TEvent extends object,
-  TResource extends object
+  TEvent extends object = RBCEvent,
+  TResource extends object = RBCResource
 > = Omit<
   rbc.CalendarProps<TEvent, TResource>,
   | 'components'
@@ -55,14 +55,15 @@ type SharedCalendarProps<
   | 'onView'
   | 'drilldownView'
   | 'defaultView'
+  | 'ref'
 >
-
 export interface RBCCalendarProps<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
 > extends SharedCalendarProps<TEvent, TResource>,
-    CalendarViewComponentProps {
-  components?: SharedCalendarProps<TEvent, TResource> | undefined
+    CalendarViewComponentProps,
+    React.RefAttributes<Calendar<TEvent, TResource>> {
+  components?: CalendarComponents<TEvent, TResource> | undefined
   views?: Partial<ViewRegistery> | (keyof DefaultViews)[]
   view: ViewRegisteryKey
 
@@ -78,7 +79,10 @@ export interface RBCCalendarProps<
   defaultView?: ViewRegisteryKey | undefined
 }
 
-declare class Calendar extends React.Component<RBCCalendarProps> {
+declare class Calendar<
+  TEvent extends object = RBCEvent,
+  TResource extends object = RBCResource
+> extends React.Component<RBCCalendarProps<TEvent, TResource>> {
   getViews: () => Record<string, ViewComponent>
   getView: () => ViewComponent
   getDrilldownView: (date: Date) => rbc.View | null
