@@ -1,4 +1,7 @@
-/** @import {RBCResource} from "./misc.types" */
+/**
+ * @import {ResourcesFn} from "./utils/Resources.types"
+ * @import {TimeGridProps} from "react-big-calendar"
+ * */
 import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
@@ -18,7 +21,7 @@ import { notify } from './utils/helpers'
 import Resources from './utils/Resources'
 import { DayLayoutAlgorithmPropType } from './utils/propTypes'
 
-/** @extends {React.Component<import("react-big-calendar").TimeGridProps>} */
+/** @extends {React.Component<TimeGridProps>} */
 export default class TimeGrid extends Component {
   constructor(props) {
     super(props)
@@ -410,7 +413,12 @@ export default class TimeGrid extends Component {
     }
   }
 
-  memoizedResources = memoize(Resources)
+  memoizedResources = memoize(
+    /**
+     * @type {ResourcesFn}
+     */
+    (resources, accessors) => Resources(resources, accessors)
+  )
 }
 
 TimeGrid.propTypes = {

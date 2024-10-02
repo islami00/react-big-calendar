@@ -1,5 +1,8 @@
+/**
+ * @import  {RBCEvent} from "../../src/misc.types"
+ */
 const now = new Date()
-/** @type {import("../../src/utils/common").RBCEvent[]} */
+/** @type {RBCEvent[]} */
 export default [
   /* {
     id: 0,

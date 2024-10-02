@@ -1,5 +1,7 @@
-/** @import WeekClass from "./Week.types" */
-/** @import * as misc from "./misc.types" */
+/**
+ * @import WeekClass from "./Week.types"
+ * @import * as misc from "./misc.types"
+ * */
 import PropTypes from 'prop-types'
 import React from 'react'
 

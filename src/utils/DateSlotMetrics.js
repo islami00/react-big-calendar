@@ -1,5 +1,7 @@
-/** @import * as types from './DateSlotMetrics.types' */
-/** @import {RowSegment} from './eventLevels.types' */
+/**
+ * @import * as types from './DateSlotMetrics.types'
+ * @import {RowSegment} from './eventLevels.types'
+ *  */
 import memoize from 'memoize-one'
 import { eventSegments, endOfRange, eventLevels } from './eventLevels'
 

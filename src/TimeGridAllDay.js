@@ -1,7 +1,7 @@
 /**
  * @import TimeGridAllDayClass,  {TimeGridAllDayProps, TimeGridAllDayState} from './TimeGridAllDay.types'
  * @import {OnSelectSlotArgs} from './BackgroundCells.types'
- * @import {ResourcesFn, ResourcesFnGroupedEvents, ResourcesFnTuple} from './utils/Resources.types'
+ * @import {ResourcesFn, ResourcesFnReturns, ResourcesFnGroupedEvents} from './utils/Resources.types'
  * @import {RBCEvent, RBCResource} from './misc.types'
  */
 import React, { Component } from 'react'
@@ -149,11 +149,9 @@ export default class TimeGridAllDay extends Component {
   }
   /**
    * @param {ResourcesFnGroupedEvents<TEvent>} groupedEvents
-   * @param {ResourcesFnTuple<TResource>} resourceTuple
-   * @param {number} idx
-   * @param {number} arrayLen
+   * @param {ResourcesFnReturns<TEvent, TResource>} memoizedResourcesResult
    */
-  renderEvents(groupedEvents, resourceTuple, idx, arrayLen) {
+  renderEvents(groupedEvents, memoizedResourcesResult) {
     let {
       //
       rtl,
@@ -167,43 +165,43 @@ export default class TimeGridAllDay extends Component {
       range,
       //
     } = this.props
+    return memoizedResourcesResult.map(([resourceId], idx, arrayLen) => {
+      const isLast = idx === arrayLen - 1
 
-    const [resourceId] = resourceTuple
-    const isLast = idx === arrayLen - 1
+      const events = groupedEvents.get(resourceId) || []
 
-    const events = groupedEvents.get(resourceId) || []
-
-    return (
-      <DateContentRow
-        getNow={getNow}
-        key={`${resourceId}`}
-        container={this.getContainer}
-        rtl={rtl}
-        minRows={1}
-        // Expect styles to only have two rows, otherwise use a similar method as Month to change it
-        maxRows={isLast ? Infinity : 2}
-        range={range}
-        events={events}
-        resourceId={resourceId}
-        className={clsx(
-          'brbc-time-content-row brbc-resource-row',
-          isLast && 'brbc-last'
-        )}
-        selectable={selectable}
-        selected={this.props.selected}
-        components={components}
-        accessors={accessors}
-        getters={getters}
-        localizer={localizer}
-        onSelect={this.handleSelectEvent}
-        onShowMore={this.handleShowMore}
-        onDoubleClick={this.handleDoubleClickEvent}
-        onKeyPress={this.handleKeyPressEvent}
-        onSelectSlot={this.handleSelectSlot}
-        longPressThreshold={this.props.longPressThreshold}
-        resizable={resizable}
-      />
-    )
+      return (
+        <DateContentRow
+          getNow={getNow}
+          key={`${resourceId}`}
+          container={this.getContainer}
+          rtl={rtl}
+          minRows={1}
+          // Expect styles to only have two rows, otherwise use a similar method as Month to change it
+          maxRows={isLast ? Infinity : 2}
+          range={range}
+          events={events}
+          resourceId={resourceId}
+          className={clsx(
+            'brbc-time-content-row brbc-resource-row',
+            isLast && 'brbc-last'
+          )}
+          selectable={selectable}
+          selected={this.props.selected}
+          components={components}
+          accessors={accessors}
+          getters={getters}
+          localizer={localizer}
+          onSelect={this.handleSelectEvent}
+          onShowMore={this.handleShowMore}
+          onDoubleClick={this.handleDoubleClickEvent}
+          onKeyPress={this.handleKeyPressEvent}
+          onSelectSlot={this.handleSelectSlot}
+          longPressThreshold={this.props.longPressThreshold}
+          resizable={resizable}
+        />
+      )
+    })
   }
 
   render() {
@@ -294,14 +292,7 @@ export default class TimeGridAllDay extends Component {
             accessors={this.props.accessors}
           />
           <div className="brbc-time-content-event-list">
-            {memoizedResourcesResult.map((resourceTuple, idx, arrayLen) => {
-              return this.renderEvents(
-                groupedEvents,
-                resourceTuple,
-                idx,
-                arrayLen
-              )
-            })}
+            {this.renderEvents(groupedEvents, memoizedResourcesResult)}
           </div>
         </div>
       </div>
