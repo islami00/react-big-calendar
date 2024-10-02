@@ -14,7 +14,10 @@ import type {
   RBCResource,
 } from './misc.types'
 import type * as React from 'react'
-import type { CalendarViewComponentProps } from './components.types'
+import type {
+  CalendarViewComponentProps,
+  ViewComponentStatic,
+} from './components.types'
 
 export interface RBCWeekProps<
   TEvent extends object = RBCEvent,
@@ -105,11 +108,11 @@ declare class Week<
   TEvent extends object = RBCEvent,
   TResource extends object = RBCResource
 > extends React.Component<RBCWeekProps<TEvent, TResource>> {
-  static navigate: WeekNavigateFn
+  static navigate: ViewComponentStatic['navigate']
 
-  static range: WeekRangeFn
+  static range: ViewComponentStatic['range']
 
-  static title: WeekTitleFn
+  static title: ViewComponentStatic['title']
 }
 
 export default Week
