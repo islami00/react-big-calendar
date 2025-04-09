@@ -17,12 +17,11 @@ function HorizontalResource(props) {
     localizer,
     min = localizer.startOf(new Date(), 'day'),
     max = localizer.endOf(new Date(), 'day'),
-    scrollToTime = localizer.startOf(new Date(), 'day'),
-    enableAutoScroll = true,
+    rangeFn = HorizontalResource.range,
     ...rest
   } = props
   let currRange = React.useMemo(
-    () => HorizontalResource.range(date, { localizer }),
+    () => rangeFn(date, { localizer }),
     [date, localizer]
   )
 
@@ -34,8 +33,6 @@ function HorizontalResource(props) {
       localizer={localizer}
       min={min}
       max={max}
-      scrollToTime={scrollToTime}
-      enableAutoScroll={enableAutoScroll}
     />
   )
 }

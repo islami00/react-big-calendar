@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * @import TimeGridAllDayClass,  {TimeGridAllDayProps, TimeGridAllDayState} from './TimeGridAllDay.types'
  * @import {OnSelectSlotArgs} from './BackgroundCells.types'
@@ -26,7 +27,7 @@ import TimeGutterAllDay from './TimeGutterAllDay'
 /**
  * @template {NonNullable<unknown>} [TEvent=RBCEvent]
  * @template  {NonNullable<unknown>} [TResource=RBCResource]
- * @extends {Component<TimeGridAllDayProps<TEvent, TResource>, TimeGridAllDayState>}
+ * @extends {Component<TimeGridAllDayProps<TEvent, TResource>, TimeGridAllDayState<TEvent>>}
  * @type {typeof TimeGridAllDayClass}
  * */
 export default class TimeGridAllDay extends Component {
@@ -37,7 +38,7 @@ export default class TimeGridAllDay extends Component {
   constructor(props) {
     super(props)
 
-    /** @type {TimeGridAllDayState} */
+    /** @type {TimeGridAllDayState<TEvent>} */
     this.state = {
       isOverflowing: null,
     }
@@ -45,7 +46,6 @@ export default class TimeGridAllDay extends Component {
     this.scrollRef = React.createRef()
     this.contentRef = React.createRef()
     this.containerRef = React.createRef()
-    this._scrollRatio = null
   }
 
   getSnapshotBeforeUpdate() {
@@ -54,9 +54,6 @@ export default class TimeGridAllDay extends Component {
   }
 
   componentDidMount() {
-    this.calculateScroll()
-    this.applyScroll()
-
     window.addEventListener('resize', this.handleResize)
   }
   /**
@@ -80,23 +77,17 @@ export default class TimeGridAllDay extends Component {
     animationFrame.cancel(this.rafHandle)
   }
 
-  componentDidUpdate() {
-    this.applyScroll()
-  }
-
   handleKeyPressEvent = (...args) => {
-    this.clearSelection()
     notify(this.props.onKeyPressEvent, args)
   }
 
   handleSelectEvent = (...args) => {
     //cancel any pending selections so only the event click goes through.
-    this.clearSelection()
+
     notify(this.props.onSelectEvent, args)
   }
 
   handleDoubleClickEvent = (...args) => {
-    this.clearSelection()
     notify(this.props.onDoubleClickEvent, args)
   }
 
@@ -108,7 +99,6 @@ export default class TimeGridAllDay extends Component {
       getDrilldownView,
       doShowMoreDrillDown,
     } = this.props
-    this.clearSelection()
 
     if (popup) {
       let position = getPosition(cell, this.containerRef.current)
@@ -326,7 +316,6 @@ export default class TimeGridAllDay extends Component {
         handleSelectEvent={this.handleSelectEvent}
         handleDoubleClickEvent={this.handleDoubleClickEvent}
         handleDragStart={handleDragStart}
-        show={!!this.state.overlay.position}
         overlayDisplay={this.overlayDisplay}
         onHide={onHide}
       />
@@ -337,34 +326,6 @@ export default class TimeGridAllDay extends Component {
     this.setState({
       overlay: null,
     })
-  }
-
-  clearSelection() {
-    clearTimeout(this._selectTimer)
-    this._pendingSelection = []
-  }
-
-  applyScroll() {
-    // If auto-scroll is disabled, we don't actually apply the scroll
-    if (this._scrollRatio != null && this.props.enableAutoScroll === true) {
-      const content = this.contentRef.current
-      content.scrollTop = content.scrollHeight * this._scrollRatio
-      // Only do this once
-      this._scrollRatio = null
-    }
-  }
-
-  calculateScroll(props = this.props) {
-    const { min, max, scrollToTime, localizer } = props
-
-    const diffMillis = localizer.diff(
-      localizer.merge(scrollToTime, min),
-      scrollToTime,
-      'milliseconds'
-    )
-    const totalMillis = localizer.diff(min, max, 'milliseconds')
-
-    this._scrollRatio = diffMillis / totalMillis
   }
 
   checkOverflow = () => {
@@ -405,8 +366,6 @@ TimeGridAllDay.propTypes = {
   max: PropTypes.instanceOf(Date).isRequired,
   getNow: PropTypes.func.isRequired,
 
-  scrollToTime: PropTypes.instanceOf(Date).isRequired,
-  enableAutoScroll: PropTypes.bool,
   showMultiDayTimes: PropTypes.bool,
 
   rtl: PropTypes.bool,

@@ -58,7 +58,7 @@ export interface ForwardRefFunction {
     ) => React.ReactElement | null
   ): (
     props: React.PropsWithoutRef<P> & React.RefAttributes<T>
-  ) => React.ReactNode | null
+  ) => React.JSX.Element | null
 }
 
 export type HandleViewNavigateFn = (value: NavigateAction, date?: Date) => void
