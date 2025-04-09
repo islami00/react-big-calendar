@@ -22,7 +22,7 @@ function HorizontalResource(props) {
   } = props
   let currRange = React.useMemo(
     () => rangeFn(date, { localizer }),
-    [date, localizer]
+    [date, localizer, rangeFn]
   )
 
   return (

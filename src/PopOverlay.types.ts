@@ -59,6 +59,6 @@ declare function PopOverlay<
   TResource extends object = RBCResource
 >(
   props: PopOverlayProps<TEvent, TResource> & React.RefAttributes<any>
-): React.JSX.Element | null
+): React.ReactNode
 
 export default PopOverlay

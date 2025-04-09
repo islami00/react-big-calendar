@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * @import TimeGridAllDayClass,  {TimeGridAllDayProps, TimeGridAllDayState} from './TimeGridAllDay.types'
  * @import {OnSelectSlotArgs} from './BackgroundCells.types'
@@ -302,6 +301,7 @@ export default class TimeGridAllDay extends Component {
 
     const onHide = () => this.setState({ overlay: null })
     if (!this.state.overlay) return null
+
     return (
       <PopOverlay
         overlay={this.state.overlay}
