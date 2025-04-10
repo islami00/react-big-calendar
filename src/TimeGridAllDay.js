@@ -52,6 +52,10 @@ export default class TimeGridAllDay extends Component {
     return null
   }
 
+  componentDidUpdate() {
+    // Here to silence a react error
+  }
+
   componentDidMount() {
     window.addEventListener('resize', this.handleResize)
   }
