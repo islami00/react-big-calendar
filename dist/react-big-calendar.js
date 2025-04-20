@@ -5655,9 +5655,9 @@
   function startAndEndAreDateOnly(start, end) {
     return isJustDate(start) && isJustDate(end)
   }
-  /** @implements {types.DateLocalizer} */
+  /** @implements {rbc.DateLocalizer} */
   var DateLocalizer = /*#__PURE__*/ _createClass(
-    /** @param {types.DateLocalizerSpec} spec */
+    /** @param {rbc.DateLocalizerSpec} spec */
     function DateLocalizer(spec) {
       var _this = this
       _classCallCheck(this, DateLocalizer)
@@ -44927,19 +44927,19 @@
     }),
   }
 
-  /** @import * as types from "./misc.types" */
+  /** @import * as types from "react-big-calendar" */
 
   /** @type {types.ForwardRefFunction} */
   var forwardRefWithGenerics = React.forwardRef
 
   /**
-   * @import {PopOverlayInnerProps, PopOverlayProps } from "./PopOverlay.types"
-   * @import {RBCEvent , RBCResource} from "./misc.types"
+   * @import {PopOverlayInnerProps, PopOverlayProps } from "react-big-calendar/lib/PopOverlay"
+   * @import {Event , Resource} from "react-big-calendar"
    */
 
   /**
-   * @template {NonNullable<unknown>} [TEvent=RBCEvent]
-   * @template  {NonNullable<unknown>} [TResource=RBCResource]
+   * @template {NonNullable<unknown>} [TEvent=Event]
+   * @template  {NonNullable<unknown>} [TResource=Resource]
    * @param {PopOverlayInnerProps<TEvent, TResource>} param0
    */
   function CalOverlay(_ref) {
@@ -45011,8 +45011,8 @@
   }
   var PopOverlay = forwardRefWithGenerics(
     /**
-     * @template {NonNullable<unknown>} [TEvent=RBCEvent]
-     * @template  {NonNullable<unknown>} [TResource=RBCResource]
+     * @template {NonNullable<unknown>} [TEvent=Event]
+     * @template  {NonNullable<unknown>} [TResource=Resource]
      * @param {PopOverlayProps<TEvent, TResource>} props
      * @param {React.Ref<any>} ref
      */
@@ -45689,7 +45689,7 @@
   }
 
   /**
-   * @extends {types.BackgroundCells}
+   * @extends {BackgroundCellsClass}
    * */
   var BackgroundCells = /*#__PURE__*/ (function (_React$Component) {
     /**
@@ -45977,7 +45977,7 @@
     },
   }
 
-  /** @extends {React.Component<import("./EventRow.types").EventRowProps>} */
+  /** @extends {EventRowClass} */
   var EventRow = /*#__PURE__*/ (function (_React$Component) {
     function EventRow() {
       _classCallCheck(this, EventRow)
@@ -46151,7 +46151,7 @@
       })
   }
 
-  /** @extends  {types.EventEndingRow} */
+  /** @extends  {EventEndingRowClass} */
   var EventEndingRow = /*#__PURE__*/ (function (_React$Component) {
     function EventEndingRow() {
       _classCallCheck(this, EventEndingRow)
@@ -47429,13 +47429,13 @@
   }
 
   /**
-   * @template {NonNullable<unknown>} [TEvent=RBCEvent]
-   * @extends {Component<types.DateContentRowProps<TEvent>>}
-   * @type {typeof types.DateContentRow}
+   * @template {NonNullable<unknown>} [TEvent=Event]
+   * @extends {Component<DateContentRowProps<TEvent>>}
+   * @type {typeof DateContentRowClass}
    */
   var DateContentRow = /*#__PURE__*/ (function (_React$Component) {
     /**
-     * @param  {[props: types.DateContentRowProps<TEvent>, context: any]} args
+     * @param  {[props: DateContentRowProps<TEvent>, context: any]} args
      */
     function DateContentRow() {
       var _this
@@ -47705,7 +47705,7 @@
     maxRows: Infinity,
   }
 
-  /** @import {HeaderProps} from "./Header.types" */
+  /** @import {HeaderProps} from "react-big-calendar" */
 
   /**
    * @param {HeaderProps} props
@@ -48192,7 +48192,7 @@
     return localizer.format(date, 'monthHeaderFormat')
   }
 
-  /** @import * as types from './TimeSlots.types*/
+  /** @import * as types from 'react-big-calendar/lib/utils/TimeSlots*/
   var getKey = function getKey(_ref) {
     var min = _ref.min,
       max = _ref.max,
@@ -49482,6 +49482,7 @@
     )
   }
 
+  /** @import DayColumnWrapper from "react-big-calendar/lib/DayColumnWrapper" */
   var DayColumnWrapper = function DayColumnWrapper(_ref) {
     var children = _ref.children,
       className = _ref.className,
@@ -49497,6 +49498,7 @@
       children
     )
   }
+  /** @type {DayColumnWrapper} */
   var DayColumnWrapper$1 = /*#__PURE__*/ React.forwardRef(function (
     props,
     ref
@@ -50437,17 +50439,17 @@
   }
 
   /**
-   * @import * as types from './Resources.types'
-   * @import {CalendarAccessors, RBCResource, RBCEvent} from '../misc.types'
+   * @import ResourcesFn from 'react-big-calendar/lib/utils/Resources'
+   * @import {CalendarAccessors, Resource, Event} from 'react-big-calendar'
    * */
   var NONE = {}
 
   /**
-   * @template {NonNullable<unknown>} [TEvent=RBCEvent]
-   * @template {NonNullable<unknown>} [TResource=RBCResource]
+   * @template {NonNullable<unknown>} [TEvent=Event]
+   * @template {NonNullable<unknown>} [TResource=Resource]
    *  @param { TResource[] | undefined} resources
    *  @param {CalendarAccessors<TEvent, TResource>} accessors
-   *  @returns {types.ResourcesFnReturns<TEvent, TResource>}
+   *  @returns {ResourcesFn<TEvent, TResource>}
    */
   function Resources(resources, accessors) {
     return {
@@ -51065,8 +51067,8 @@
     'enableAutoScroll',
   ]
   /**
-   * @template {NonNullable<unknown>} [TEvent=misc.RBCEvent]
-   * @template {NonNullable<unknown>} [TResource=misc.RBCResource]
+   * @template {NonNullable<unknown>} [TEvent=rbc.Event]
+   * @template {NonNullable<unknown>} [TResource=rbc.Resource]
    * @extends {WeekClass<TEvent, TResource>}
    * @type {typeof WeekClass<TEvent, TResource>}
    */
@@ -51554,10 +51556,7 @@
 
   var _excluded$1 = ['action', 'date', 'today']
   /**
-   *
-   * @param {ViewComponent | undefined} View
-   * @param {MoveDateParam1} param1
-   * @returns {Date}
+   * @type {move}
    */
   function moveDate(View, _ref) {
     var action = _ref.action,
@@ -51601,7 +51600,7 @@
       _this.navigate = function (action) {
         _this.props.onNavigate(action)
       }
-      /** @param {ViewRegisteryKey} action */
+      /** @param {rbc.View} action */
       _this.view = function (view) {
         _this.props.onView(view)
       }
@@ -53318,7 +53317,7 @@
       }
       /**
        * @param {Date} date
-       * @param {ViewRegisteryKey} view
+       * @param {View} view
        * */
       _this.handleDrillDown = function (date, view) {
         var onDrillDown = _this.props.onDrillDown
@@ -53334,7 +53333,7 @@
       }
       return _this
     }
-    /** @param {RBCCalendarProps} nextProps */
+    /** @param {CalendarProps} nextProps */
     _inherits(Calendar, _React$Component)
     return _createClass(
       Calendar,
@@ -53431,7 +53430,7 @@
             }
           },
 
-          /** @param {RBCCalendarProps} */
+          /** @param {CalendarProps} */
         },
         {
           key: 'getContext',
